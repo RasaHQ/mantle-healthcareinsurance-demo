@@ -1,0 +1,16 @@
+scenario:
+  name: "[claim.processing] A claim that is still processing"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Ask whether your MRI claim has been paid yet.
+
+  goals:
+    criteria:
+      - The agent says that the MRI claim is still processing
+      - The agent says that most claims are processed within 30 days

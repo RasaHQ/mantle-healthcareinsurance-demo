@@ -1,0 +1,11 @@
+schema:
+  public:
+    # Written only by the blocks.
+    kind:
+      type: categorical
+      enum_values: [appeal, grievance]
+
+  private:
+    # Set by every block that answers: the skill's completion condition.
+    handled:
+      type: bool

@@ -1,0 +1,28 @@
+responses:
+  utter_pcp_change_summary:
+    - text: "Your primary care provider is now {session.change_pcp_confirm.current_pcp_name}. If you change, {session.change_pcp_confirm.new_pcp_name} becomes your PCP on {session.change_pcp_confirm.effective_date}. Until then, keep seeing your current PCP."
+
+  utter_ask_pcp_continue:
+    - text: "Do you want to continue with this change?"
+      buttons:
+        - title: "Yes, continue"
+          payload: "set:session.change_pcp_confirm.proceed_reply=yes"
+        - title: "No, keep my PCP"
+          payload: "set:session.change_pcp_confirm.proceed_reply=no"
+
+  utter_ask_pcp_confirm:
+    - text: "Please confirm: do you want me to change your PCP to {session.change_pcp_confirm.new_pcp_name} now?"
+      buttons:
+        - title: "Yes, change my PCP"
+          payload: "set:session.change_pcp_confirm.confirm_reply=yes"
+        - title: "No"
+          payload: "set:session.change_pcp_confirm.confirm_reply=no"
+
+  utter_pcp_change_done:
+    - text: "Done. {session.change_pcp_confirm.new_pcp_name} is your PCP from {session.change_pcp_confirm.effective_date}. Your reference is {session.change_pcp_confirm.change_reference}. We'll mail you a new ID card with your new PCP's name."
+
+  utter_pcp_change_kept:
+    - text: "No problem, your PCP stays the same."
+
+  utter_pcp_change_error:
+    - text: "Sorry, I can't change your PCP in the chat right now."

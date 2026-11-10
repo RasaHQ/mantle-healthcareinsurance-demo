@@ -1,0 +1,8 @@
+responses:
+  utter_ask_service:
+    - condition: "session.benefit_check.ask_count >= 2"
+      text: "Sorry, I still don't know which service you mean. Tell me the service, for example a specialist visit or an MRI, or the procedure code from your provider's estimate."
+    - text: "Sure. Which service do you want to check? If you have the procedure code from your provider's estimate, you can give me that too."
+
+  utter_benefit_offer_person:
+    - text: "A decision about your own care is made by our clinical team, not in this chat. A Member Services representative can explain the next steps."

@@ -1,0 +1,16 @@
+scenario:
+  name: "[enroll.moving] A member who moves"
+
+  setup:
+    initial_slots:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Jordan. Say you are moving to Arizona next month and ask what happens to your plan.
+
+  goals:
+    criteria:
+      - The agent says that a move out of the service area gives a Special Enrollment Period
+      - The agent offers a representative

@@ -1,0 +1,17 @@
+scenario:
+  name: "[decline.after_decline_hook] A real question right after a decline"
+
+  setup:
+    initial_slots:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Jordan. Ask what the weather is tomorrow. After the answer, ask whether metformin is
+    covered.
+
+  goals:
+    criteria:
+      - The agent declines the weather question
+      - The agent answers that metformin is tier 1

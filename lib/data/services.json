@@ -1,0 +1,38 @@
+{
+  "categories": {
+    "primary_care": {"label": "Primary care visit", "prior_authorization_required": false, "referral_required_hmo": false},
+    "specialist": {"label": "Specialist visit", "prior_authorization_required": false, "referral_required_hmo": true},
+    "urgent_care": {"label": "Urgent care", "prior_authorization_required": false, "referral_required_hmo": false},
+    "emergency_room": {"label": "Emergency room", "prior_authorization_required": false, "referral_required_hmo": false},
+    "inpatient_hospital": {"label": "Inpatient hospital stay", "prior_authorization_required": true, "referral_required_hmo": false, "note": "Prior authorization is needed for a planned stay. An emergency admission needs no prior authorization."},
+    "skilled_nursing": {"label": "Skilled nursing facility", "prior_authorization_required": true, "referral_required_hmo": false},
+    "mri_ct": {"label": "MRI, CT or PET scan", "prior_authorization_required": true, "referral_required_hmo": false},
+    "lab_tests": {"label": "Lab tests", "prior_authorization_required": false, "referral_required_hmo": false},
+    "colonoscopy": {"label": "Screening colonoscopy", "prior_authorization_required": false, "referral_required_hmo": false},
+    "annual_wellness": {"label": "Annual wellness visit", "prior_authorization_required": false, "referral_required_hmo": false},
+    "telehealth": {"label": "Telehealth visit", "prior_authorization_required": false, "referral_required_hmo": false},
+    "ambulance": {"label": "Ambulance", "prior_authorization_required": false, "referral_required_hmo": false, "note": "Emergency ambulance needs no prior authorization. A non-emergency ambulance trip needs prior authorization."},
+    "durable_medical_equipment": {"label": "Durable medical equipment (for example a CPAP machine, a walker or a wheelchair)", "prior_authorization_required": true, "referral_required_hmo": false, "note": "Prior authorization is needed for items that cost more than $500."},
+    "diabetic_supplies": {"label": "Diabetic supplies", "prior_authorization_required": false, "referral_required_hmo": false},
+    "physical_therapy": {"label": "Physical therapy", "prior_authorization_required": true, "referral_required_hmo": true, "note": "Prior authorization is needed after the first 6 visits."},
+    "mental_health": {"label": "Outpatient mental health therapy", "prior_authorization_required": false, "referral_required_hmo": false},
+    "acupuncture": {"label": "Acupuncture", "prior_authorization_required": false, "referral_required_hmo": false},
+    "cosmetic_surgery": {"label": "Cosmetic surgery", "prior_authorization_required": false, "referral_required_hmo": false}
+  },
+  "codes": {
+    "99213": {"name": "Office visit with your doctor", "category": "primary_care"},
+    "99243": {"name": "Office consultation with a specialist", "category": "specialist"},
+    "99285": {"name": "Emergency department visit", "category": "emergency_room"},
+    "70551": {"name": "MRI of the brain", "category": "mri_ct"},
+    "71250": {"name": "CT scan of the chest", "category": "mri_ct"},
+    "45378": {"name": "Colonoscopy", "category": "colonoscopy"},
+    "G0438": {"name": "Annual wellness visit, first", "category": "annual_wellness"},
+    "G0439": {"name": "Annual wellness visit, later years", "category": "annual_wellness"},
+    "E0601": {"name": "CPAP device", "category": "durable_medical_equipment"},
+    "A0429": {"name": "Emergency ground ambulance", "category": "ambulance"},
+    "97110": {"name": "Physical therapy, therapeutic exercise", "category": "physical_therapy"},
+    "90834": {"name": "Psychotherapy, 45 minutes", "category": "mental_health"},
+    "97810": {"name": "Acupuncture", "category": "acupuncture"},
+    "80053": {"name": "Comprehensive metabolic panel (lab)", "category": "lab_tests"}
+  }
+}

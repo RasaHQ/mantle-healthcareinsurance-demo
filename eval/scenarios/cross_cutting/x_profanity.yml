@@ -1,0 +1,17 @@
+scenario:
+  name: "[x.profanity] Profanity mixed with a real question"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex and you are angry. Write 'this damn plan never pays for anything, is my MRI even
+    covered?'.
+
+  goals:
+    criteria:
+      - The agent stays calm
+      - The agent answers the MRI question with the $250 copay and prior authorization

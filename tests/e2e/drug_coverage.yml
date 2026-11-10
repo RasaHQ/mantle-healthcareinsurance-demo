@@ -1,0 +1,187 @@
+# One test case per path. The path id is in brackets; `python -m eval.coverage` lists all paths.
+
+metadata:
+  - alex:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - sam:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - jordan:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - visitor:
+      client_surface: "web"
+      hours_profile: "always_open"
+
+test_cases:
+  - test_case: "[drug.covered_brand] a brand-name drug gives its tier and cost"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Is Eliquis covered?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)tier 3"
+          - bot_uttered:
+              text_matches: "\\$47"
+  - test_case: "[drug.generic_name] a generic name gives its tier"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Is metformin covered?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)tier 1"
+          - bot_uttered:
+              text_matches: "\\$0"
+  - test_case: "[drug.mail_order] the 90-day mail-order cost"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Is Eliquis covered?"
+      - user: "What does a 90-day supply by mail cost?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$141"
+  - test_case: "[drug.pa] a drug with prior authorization says so"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Is Ozempic on my drug list?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)prior authori[sz]ation"
+  - test_case: "[drug.step_therapy] Januvia needs metformin first"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Is Januvia covered?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)step therapy|metformin first|try metformin"
+  - test_case: "[drug.quantity_limit] gabapentin has a quantity limit"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Is gabapentin covered?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)3 capsules"
+  - test_case: "[drug.tier4] a tier 4 drug costs 40%"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Is Crestor covered?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)tier 4"
+          - bot_uttered:
+              text_matches: "40 ?%"
+  - test_case: "[drug.specialty] a specialty drug: tier 5, specialty pharmacy only"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Is Humira covered?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)tier 5"
+          - bot_uttered:
+              text_matches: "(?i)specialty pharmacy"
+  - test_case: "[drug.insulin] insulin is capped at $35"
+    metadata: "sam"
+    steps:
+      - user: "/session_start"
+      - user: "How much will I pay for Lantus?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$35"
+  - test_case: "[drug.excluded] a drug that the law excludes is not covered"
+    metadata: "sam"
+    steps:
+      - user: "/session_start"
+      - user: "Is Viagra covered?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)(exclud|not covered)"
+  - test_case: "[drug.unknown] a drug that is not on the list gives the exception route"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Is madeupzumab covered?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)exception"
+          - bot_did_not_utter:
+              text_matches: "\\$\\d"
+  - test_case: "[drug.no_drug_named] a question without a drug name asks which drug"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Is my medication covered?"
+        assertions:
+          - bot_did_not_utter:
+              text_matches: "(?i)tier \\d"
+  - test_case: "[drug.strength_ok] a covered strength"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Is atorvastatin 20 mg covered?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)tier 1"
+  - test_case: "[drug.strength_not_covered] a strength that is not on the list is named"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Is atorvastatin 5 mg covered?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)(10 mg|not covered|isn.t covered|strengths)"
+  - test_case: "[drug.new_member_transition] a new member gets the transition fill rule"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "Is Humira covered? I already take it from my old plan"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)(temporary|transition|90 days)"
+  - test_case: "[drug.pharmacy_facts] preferred pharmacies and mail order sign-up"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Where can I find a preferred pharmacy?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)example.com/pharmacies"
+  - test_case: "[drug.payment_plan] the Medicare Prescription Payment Plan"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Can I spread my drug costs out over the year?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)monthly|month"
+  - test_case: "[drug.shopper_by_plan] a shopper who is not sure gets the cost on both plans"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "set:session.initialize_conversation.membership_reply=shopper"
+      - user: "set:session.initialize_conversation.plan_reply=not_sure"
+      - user: "Is atorvastatin covered?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$0"
+          - bot_uttered:
+              text_matches: "\\$3"
+  - test_case: "[drug.cap_question] the yearly cap on drug costs"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Is there a limit on what I pay for drugs this year?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$2,100"

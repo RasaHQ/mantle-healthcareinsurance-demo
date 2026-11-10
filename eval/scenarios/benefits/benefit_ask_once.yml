@@ -1,0 +1,18 @@
+scenario:
+  name: "[benefit.ask_once] A benefit question without a service"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Ask 'can you check a benefit for me?'. When the assistant asks which service, say
+    'physical therapy'.
+
+  goals:
+    criteria:
+      - The agent asks which service the member means
+      - The agent gives the physical therapy copay of $30
+      - The agent says that prior authorization is needed after the first 6 visits

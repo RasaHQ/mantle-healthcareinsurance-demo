@@ -1,0 +1,21 @@
+scenario:
+  name: "[csat.unsatisfied] An unsatisfied rating"
+
+  setup:
+    initial_slots:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Jordan. Ask whether hearing aids are covered. Then say goodbye. Say yes when asked
+    whether your question was answered. When asked how the conversation was, say it was poor.
+
+  goals:
+    criteria:
+      - The agent says goodbye
+      - The agent records the rating and thanks the member
+    assertions:
+      - memory_was_set:
+          - name: "builtin_customer_satisfaction.csat_score"
+            value: "unsatisfied"

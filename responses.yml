@@ -1,0 +1,37 @@
+# Project responses, usable by every skill.
+responses:
+  # The two declines replace the engine's built-in responses of the same names.
+  utter_decline_in_domain_out_of_scope:
+    - text: |-
+        I'm not able to help with that one. I can help with your Rasa Advantage plan: what a service costs, your extra benefits, your drugs, your out-of-pocket costs, finding a doctor, changing your primary care provider, your ID card, claims, prior authorizations, plan changes, appeals and complaints, logging in, and talking to a representative.
+  utter_decline_out_of_domain_out_of_scope:
+    - text: |-
+        I'm not able to help with that one. I can help with your Rasa Advantage plan: what a service costs, your extra benefits, your drugs, your out-of-pocket costs, finding a doctor, changing your primary care provider, your ID card, claims, prior authorizations, plan changes, appeals and complaints, logging in, and talking to a representative.
+
+  # The engine's lines when a model call fails or a turn reaches its limit.
+  utter_model_call_error:
+    - text: "Sorry, that took me too long. Please try again."
+  utter_could_not_finish:
+    - text: "Sorry, that took me too long. Please try again."
+
+  # The orchestrator's line when initialize_conversation ended without the plan.
+  utter_precondition_unmet:
+    - text: |-
+        I can't continue with that one, because I don't know which plan you're asking about. Ask me again, and tell me whether it's the Rasa Advantage HMO or the Rasa Advantage PPO.
+
+  utter_offer_help:
+    - text: "How can I help you today?"
+
+  # The engine's wrap-up question, and the line after a declined offer.
+  utter_ask_wants_to_continue:
+    - text: "Is there anything else I can help you with?"
+  utter_what_else:
+    - text: "Okay. What else can I help you with today?"
+
+  # Before the offer of a person, after a request for a person.
+  utter_representative_can_help:
+    - text: "Sure, a Member Services representative can help you with that."
+
+  # For a visitor who asks about their own data: claims, authorizations, costs so far, the PCP, the ID card.
+  utter_sign_in_for_member_data:
+    - text: "To look at your own plan information, please log in at example.com/member or in the Rasa Health Insurance app, then start a new chat. I can then look it up for you."

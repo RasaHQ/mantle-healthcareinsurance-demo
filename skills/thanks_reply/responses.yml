@@ -1,0 +1,6 @@
+responses:
+  # The engine may reword it to fit the conversation, without new information.
+  utter_youre_welcome:
+    - text: "You're welcome, glad I could help."
+      metadata:
+        rephrase: true

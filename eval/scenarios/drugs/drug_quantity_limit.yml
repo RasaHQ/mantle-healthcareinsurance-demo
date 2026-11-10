@@ -1,0 +1,17 @@
+scenario:
+  name: "[drug.quantity_limit] A quantity limit for gabapentin"
+
+  setup:
+    initial_slots:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Jordan. Ask whether gabapentin 600 mg is covered and whether there is a limit on how
+    many you can get.
+
+  goals:
+    criteria:
+      - The agent says that gabapentin is covered
+      - The agent says that the limit is up to 3 capsules a day

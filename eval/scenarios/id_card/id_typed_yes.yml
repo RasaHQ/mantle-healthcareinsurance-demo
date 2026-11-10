@@ -1,0 +1,24 @@
+scenario:
+  name: "[id.typed_yes] A new ID card is ordered only after the address is confirmed"
+
+  setup:
+    initial_slots:
+      member_id: "m1004"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Taylor. Say you lost your member ID card. When the assistant asks whether to mail the
+    card to your address, say yes.
+
+  goals:
+    criteria:
+      - The agent tells the member about the digital ID card
+      - The agent asks the member to confirm the mailing address before it orders the card
+      - The agent gives an order reference
+    assertions:
+      - sequencing:
+          - memory_was_set: "id_card.address_reply"
+          - memory_was_set: "id_card.order_reference"
+    expected_tools:
+      - tool_called: "order_card"

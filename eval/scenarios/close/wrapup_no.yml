@@ -1,0 +1,22 @@
+scenario:
+  name: "[wrapup.no] After the last answer, the close asks for a rating and ends the chat"
+
+  setup:
+    initial_slots:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Jordan. Ask whether your plan covers an annual wellness visit. Then say thanks, that is
+    all. When the assistant asks whether it answered your question, say yes. When it asks whether
+    you need anything else, say no. When it asks how the conversation was, say it was good. Stop
+    after the assistant thanks you for your feedback.
+
+  goals:
+    criteria:
+      - The agent answers the question about the annual wellness visit
+      - The agent asks how the conversation was
+    assertions:
+      - bot_uttered:
+          utter_name: "utter_ask_rating"

@@ -1,0 +1,17 @@
+scenario:
+  name: "[x.spanish] A question in Spanish"
+
+  setup:
+    initial_slots:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Sam and you prefer Spanish. Write only in Spanish. Ask '¿Mi plan cubre lentes?' and then
+    ask for an interpreter.
+
+  goals:
+    criteria:
+      - The agent answers about glasses or offers interpreter services
+      - The agent offers language help

@@ -1,0 +1,43 @@
+schema:
+  public:
+    # Written only by submit_pcp_change. Not llm_settable and no collect owns it, so neither the
+    # model nor a button can write it.
+    change_reference:
+      type: text
+
+  private:
+    # Open only while the block runs a block-only tool.
+    tool_gate_open:
+      type: bool
+
+    # Written by prepare_pcp_change, for the texts.
+    current_pcp_name:
+      type: text
+    new_pcp_name:
+      type: text
+    effective_date:
+      type: text
+
+    proceed_reply:
+      type: categorical
+      enum_values: ["yes", "no", "unclear"]
+      llm_settable: true
+      description: >-
+        The member's answer to "Do you want to continue with this change?": yes; no; unclear if the
+        answer is neither.
+    proceed_reply_question_open:
+      type: bool
+
+    confirm_reply:
+      type: categorical
+      enum_values: ["yes", "no", "unclear"]
+      llm_settable: true
+      description: >-
+        The member's answer to "Please confirm: do you want me to change your PCP now?": yes; no;
+        unclear if the answer is neither.
+    confirm_reply_question_open:
+      type: bool
+
+    # The second ask of the current question.
+    reasked:
+      type: bool

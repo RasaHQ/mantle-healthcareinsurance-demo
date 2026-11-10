@@ -1,0 +1,15 @@
+schema:
+  public:
+    # Set by the engine's `cannot_help`: in_domain_out_of_scope or out_of_domain_out_of_scope.
+    # A `description:` here fails validation.
+    request_type:
+      type: str
+  private:
+    # Open only while the block runs a block-only tool.
+    tool_gate_open:
+      type: bool
+
+    # The member's turns in a row that ended in the decline, this one included.
+    decline_streak:
+      type: int
+      initial_value: 0

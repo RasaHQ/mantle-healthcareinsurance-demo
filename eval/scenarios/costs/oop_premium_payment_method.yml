@@ -1,0 +1,16 @@
+scenario:
+  name: "[oop.premium_payment_method] The premium and how it is paid"
+
+  setup:
+    initial_slots:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Sam. Ask what your monthly premium is and how it gets paid.
+
+  goals:
+    criteria:
+      - The agent says that the PPO premium is $39 a month
+      - The agent says that the premium is deducted from Social Security

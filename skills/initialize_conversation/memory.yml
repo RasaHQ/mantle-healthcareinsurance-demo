@@ -1,0 +1,26 @@
+schema:
+  # Public, so that builtin_session_start can see that the plan question was answered.
+  public:
+    plan_reply:
+      type: categorical
+      enum_values: [hmo, ppo, not_sure, unclear]
+      description: >-
+        Which plan the person asks about: hmo (Rasa Advantage HMO), ppo (Rasa Advantage PPO), or
+        not_sure when they do not know or want to compare both. Record it only when the person's own
+        words answer the plan question, for example "I have the PPO" or "I don't know". A question
+        such as "Is my drug covered?" does not answer it: then leave this field empty. unclear: the
+        person answered the plan question, but the answer names none of these.
+
+  private:
+    # Open only while the block runs a block-only tool.
+    tool_gate_open:
+      type: bool
+
+    membership_reply:
+      type: categorical
+      enum_values: [member, shopper, unclear]
+      description: >-
+        Whether the person is enrolled in a Rasa Advantage plan (member) or is looking at the plans
+        (shopper). Record it only when the person's own words say it, for example "I'm a member".
+        A question about a benefit does not say it: then leave this field empty. unclear: the person
+        answered the membership question, but the answer says neither.

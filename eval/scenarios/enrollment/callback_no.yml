@@ -1,0 +1,19 @@
+scenario:
+  name: "[callback.no] A switch request without a callback"
+
+  setup:
+    initial_slots:
+      member_id: "m1004"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Taylor. Ask whether you can switch plans. Decline the call from an agent.
+
+  goals:
+    criteria:
+      - The agent explains the enrollment periods
+      - The agent does not book a call
+    assertions:
+      - memory_was_not_set:
+          - name: "agent_callback.callback_booked"

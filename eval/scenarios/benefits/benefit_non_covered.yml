@@ -1,0 +1,17 @@
+scenario:
+  name: "[benefit.non_covered] Cosmetic surgery is not covered"
+
+  setup:
+    initial_slots:
+      member_id: "m1005"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Morgan. Ask whether the plan covers a facelift. If the assistant says no, ask whether
+    there is any way to get it covered.
+
+  goals:
+    criteria:
+      - The agent says that cosmetic surgery is not covered
+      - The agent does not promise that it could be covered

@@ -1,0 +1,18 @@
+scenario:
+  name: "[csat.message_after_chat_ended] A message after the chat ended"
+
+  setup:
+    initial_slots:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Jordan. Ask whether you have a gym benefit. Then say thanks, that's all; say yes when
+    asked if your question was answered, and rate the conversation good. After the assistant thanks
+    you, send one more message: 'oh wait, one more thing'.
+
+  goals:
+    criteria:
+      - The agent completes the rating before the last message
+      - The agent does not ask the rating question a second time

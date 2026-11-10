@@ -1,0 +1,16 @@
+scenario:
+  name: "[provider.not_accepting] A doctor who is not accepting new patients"
+
+  setup:
+    initial_slots:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Sam. Ask whether Dr. Fatima Hassan is in your network and whether you can become her
+    patient.
+
+  goals:
+    criteria:
+      - The agent says that Dr. Hassan is not accepting new patients

@@ -1,0 +1,17 @@
+scenario:
+  name: "[drug.typo] A drug name with a typo"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Ask 'is eliqis covered?' with that spelling. If the assistant does not understand,
+    correct yourself to Eliquis.
+
+  goals:
+    criteria:
+      - The agent does not invent a drug for the misspelled name
+      - The agent eventually answers that Eliquis is tier 3

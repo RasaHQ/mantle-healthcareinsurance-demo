@@ -1,0 +1,19 @@
+# The scenario framework's models: the simulator plays the member, the judge scores each
+# transcript. Keep both fixed while you compare orchestrator models, so that a change in the
+# results comes from the assistant's model, not from the simulator or the judge.
+# `max_concurrent_llm_calls` caps the provider calls per role.
+simulation:
+  max_concurrent_llm_calls: 4
+  llm:
+    provider: openai
+    model: gpt-6-luna
+    reasoning_effort: none
+    timeout: 30
+
+evaluation:
+  max_concurrent_llm_calls: 4
+  llm:
+    provider: openai
+    model: gpt-6-luna
+    reasoning_effort: medium
+    timeout: 30

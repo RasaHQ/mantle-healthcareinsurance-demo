@@ -1,0 +1,12 @@
+schema:
+  public:
+    wants_to_resume:
+      type: bool
+      description: "Whether the member wants to resume the interrupted task."
+    # Seeded by the engine with the paused skill's name. The model cannot set it.
+    interrupted_task_name:
+      type: text
+  private:
+    # Open only while the block runs a block-only tool.
+    tool_gate_open:
+      type: bool

@@ -1,0 +1,22 @@
+responses:
+  utter_id_card_digital:
+    - condition: "session.project.client_surface == 'app'"
+      text: "You can use your digital ID card right away: tap ID Card on the home screen of this app. Keep your red, white and blue Medicare card in a safe place, and show your Rasa Advantage card when you get care."
+    - text: "You can use your digital ID card right away: log in at example.com/member and select ID Card, or open the Rasa Health Insurance app. Keep your red, white and blue Medicare card in a safe place, and show your Rasa Advantage card when you get care."
+
+  utter_ask_card_address:
+    - text: "I can also mail you a new card. Should we send it to {session.id_card.mailing_address}?"
+      buttons:
+        - title: "Yes, send it"
+          payload: "set:session.id_card.address_reply=yes"
+        - title: "No, that address is wrong"
+          payload: "set:session.id_card.address_reply=no"
+
+  utter_card_ordered:
+    - text: "Your new ID card is on its way to {session.id_card.mailing_address}. It arrives in 7 to 10 business days. Your order reference is {session.id_card.order_reference}."
+
+  utter_card_change_address:
+    - text: "A Member Services representative can update your address after they verify your identity. Then we can mail your card."
+
+  utter_card_not_ordered:
+    - text: "Okay, I did not order a new card. You can ask me again at any time."

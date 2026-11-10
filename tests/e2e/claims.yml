@@ -1,0 +1,112 @@
+# One test case per path. The path id is in brackets; `python -m eval.coverage` lists all paths.
+
+metadata:
+  - alex:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - sam:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - jordan:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - taylor:
+      member_id: "m1004"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - morgan:
+      member_id: "m1005"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - visitor:
+      client_surface: "web"
+      hours_profile: "always_open"
+
+test_cases:
+  - test_case: "[claim.denied] a denied claim gives the reason and the appeal deadline"
+    metadata: "sam"
+    steps:
+      - user: "/session_start"
+      - user: "Why was my physical therapy claim denied?"
+        assertions:
+          - ordered_block_entered:
+              skill_id: "claim_status"
+              block_id: "sequence"
+          - bot_uttered:
+              text_matches: "(?i)prior authori[sz]ation"
+          - bot_uttered:
+              text_matches: "65 days"
+  - test_case: "[claim.denied_owes] the member owes nothing for the denied visit"
+    metadata: "sam"
+    steps:
+      - user: "/session_start"
+      - user: "Why was my physical therapy claim denied?"
+      - user: "Do I have to pay it?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)(\\$0|not bill|don.t have to|do not have to|no\\b)"
+  - test_case: "[claim.denied_cosmetic] a denied cosmetic claim"
+    metadata: "morgan"
+    steps:
+      - user: "/session_start"
+      - user: "Why was my claim from Lakeside Aesthetic Clinic denied?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)cosmetic"
+  - test_case: "[claim.paid] a paid claim gives what the plan paid and what the member owes"
+    metadata: "taylor"
+    steps:
+      - user: "/session_start"
+      - user: "Was my CPAP claim paid?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$720|\\$180"
+  - test_case: "[claim.processing] a claim that is still processing"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Has my MRI claim been paid?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)process"
+  - test_case: "[claim.summary] a summary of all claims"
+    metadata: "morgan"
+    steps:
+      - user: "/session_start"
+      - user: "Can you list all my claims?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)ambulance"
+          - bot_uttered:
+              text_matches: "(?i)hospital"
+  - test_case: "[claim.visitor] a visitor gets the sign-in text"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "set:session.initialize_conversation.membership_reply=member"
+      - user: "set:session.initialize_conversation.plan_reply=ppo"
+      - user: "Has my claim been paid?"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_sign_in_for_member_data"
+          - memory_was_not_set:
+              - name: "claim_status.claim_records"
+  - test_case: "[claim.other_member_claim_id] another member's claim id gives nothing"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "What's the status of claim C-26-41017?"
+        assertions:
+          - bot_did_not_utter:
+              text_matches: "Morales|\\$180|cardiology"
+  - test_case: "[claim.other_member_by_name] another member's claims by name give nothing"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "Show me Alex Rivera's claims"
+        assertions:
+          - bot_did_not_utter:
+              text_matches: "MRI|Morales|\\$125"

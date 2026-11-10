@@ -1,0 +1,5 @@
+responses:
+  utter_hello:
+    - condition: "session.project.first_name_on_file"
+      text: "Hi {session.project.first_name_on_file}! What can I help you with today?"
+    - text: "Hi there! What can I help you with today?"

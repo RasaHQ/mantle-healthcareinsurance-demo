@@ -1,0 +1,16 @@
+scenario:
+  name: "[pcp.already_pcp] The doctor is already the PCP"
+
+  setup:
+    initial_slots:
+      member_id: "m1005"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Morgan. Ask to make Dr. Maya Patel your primary care doctor.
+
+  goals:
+    criteria:
+      - The agent says that Dr. Maya Patel is already the member's PCP
+      - The agent does not start a change

@@ -1,0 +1,16 @@
+scenario:
+  name: "[enroll.shopper] A shopper asks when they can join"
+
+  setup:
+    initial_slots:
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are shopping for a Medicare Advantage plan and turning 65 soon. Ask when you can join one of
+    the plans.
+
+  goals:
+    criteria:
+      - The agent explains the enrollment periods
+      - The agent mentions 1-800-MEDICARE or SHIP as free help

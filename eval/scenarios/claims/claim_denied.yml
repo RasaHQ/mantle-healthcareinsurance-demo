@@ -1,0 +1,20 @@
+scenario:
+  name: "[claim.denied] A denied claim gives the reason and the appeal deadline"
+
+  setup:
+    initial_slots:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Sam, a member of the PPO. Say you got a notice that a physical therapy claim was denied,
+    and ask why and whether you must pay it.
+
+  goals:
+    criteria:
+      - The agent says that the claim was denied because no prior authorization was on file after the first 6 visits
+      - The agent says that the provider may not bill the member for this visit
+      - The agent says that the member can appeal within 65 days
+    expected_tools:
+      - tool_called: "my_claims"

@@ -1,0 +1,18 @@
+scenario:
+  name: "[x.digression_unclear_resume] An unclear answer to the resume question"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Ask to make Dr. Grace Liu your PCP. At the first confirmation, ask instead whether
+    hearing aids are covered. When asked whether to continue with the earlier task, say 'hmm'. Then
+    say yes.
+
+  goals:
+    criteria:
+      - The agent answers the hearing aid question
+      - The agent does not change the PCP without the member's confirmations

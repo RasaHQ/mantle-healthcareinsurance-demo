@@ -1,0 +1,11 @@
+schema:
+  public:
+    # The doctor that the member picked, written only by pick_new_pcp after its checks.
+    # change_pcp_confirm reads it.
+    new_pcp_id:
+      type: text
+
+  private:
+    # Set by the blocks before the link: the skill's completion condition.
+    handled:
+      type: bool

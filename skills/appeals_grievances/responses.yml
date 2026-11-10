@@ -1,0 +1,20 @@
+responses:
+  utter_ask_appeal_or_grievance:
+    - text: "I can help. Do you want to appeal a decision we made, or file a complaint?"
+      buttons:
+        - title: "Appeal a decision"
+          payload: "I want to appeal a decision"
+        - title: "File a complaint"
+          payload: "I want to file a complaint"
+
+  utter_appeal_rules:
+    - text: |-
+        If we deny a service, a drug or a payment, you can appeal. Ask within 65 days of the date on the denial notice. You, your doctor or someone you appoint can ask.
+        - Care you have not received yet: we decide within 30 days, or within 72 hours for a fast appeal when waiting could seriously harm your health.
+        - A Part D drug: we decide within 7 days, or within 72 hours for a fast appeal.
+        - A payment for care you already received: we decide within 60 days.
+        If we keep our decision on medical care, we send your case to an independent review organization automatically. For free, unbiased help, call 1-800-MEDICARE (1-800-633-4227, TTY 1-877-486-2048).
+
+  utter_grievance_rules:
+    - text: |-
+        I'm sorry about your experience. A complaint, also called a grievance, can be about the quality of your care, a provider's office, waiting times, or our service. File it within 60 days of the event, by phone or in writing. We answer within 30 days. You can also file a complaint with Medicare at 1-800-MEDICARE (1-800-633-4227, TTY 1-877-486-2048).

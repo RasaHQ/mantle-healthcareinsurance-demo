@@ -1,0 +1,13 @@
+schema:
+  public:
+    wants_to_continue:
+      type: bool
+      description: "Whether the member wants help with another task."
+  private:
+    # Open only while the block runs a block-only tool.
+    tool_gate_open:
+      type: bool
+
+    # The member sent a message after the wrap-up started, and no skill handled it yet.
+    unhandled_message:
+      type: bool

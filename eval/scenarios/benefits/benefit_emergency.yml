@@ -1,0 +1,17 @@
+scenario:
+  name: "[benefit.emergency] Emergency care while travelling"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex, an HMO member. Say you are travelling to another state next month and ask what
+    happens if you need the emergency room there.
+
+  goals:
+    criteria:
+      - The agent says that emergency care is covered anywhere in the United States
+      - The agent gives the $125 emergency room copay

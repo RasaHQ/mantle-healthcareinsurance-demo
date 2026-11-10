@@ -1,0 +1,16 @@
+schema:
+  public:
+    # The engine's built-in rating field. Written only as the answer to its question, after the
+    # gate opened (tools.py).
+    csat_score:
+      type: categorical
+      enum_values: [satisfied, unsatisfied]
+      description: "Whether the member was satisfied or unsatisfied with the conversation."
+  private:
+    # Open only while the block runs a block-only tool.
+    tool_gate_open:
+      type: bool
+
+    # Set by the block just before the question; the post-write tool reads and closes it.
+    csat_score_question_open:
+      type: bool

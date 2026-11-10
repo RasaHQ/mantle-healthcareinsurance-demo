@@ -1,0 +1,18 @@
+scenario:
+  name: "[wrapup.yes_with_task] The wrap-up question with a new task"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Ask whether Eliquis is covered. When the assistant asks whether there is anything
+    else, say yes, and ask whether you need a referral for a dermatologist. Then say that's all and
+    answer the closing questions.
+
+  goals:
+    criteria:
+      - The agent answers both questions
+      - The agent asks the rating question only at the end

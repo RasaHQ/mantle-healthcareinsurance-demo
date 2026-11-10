@@ -1,0 +1,20 @@
+scenario:
+  name: "[appeals.grievance] A complaint about a doctor's office"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Say you want to complain about how rude the staff at your doctor's office were.
+    Decline the offer of a representative.
+
+  goals:
+    criteria:
+      - The agent explains how to file a grievance within 60 days
+      - The agent does not transfer the member after the no
+    assertions:
+      - memory_was_not_set:
+          - name: "project.handoff_to_agent"

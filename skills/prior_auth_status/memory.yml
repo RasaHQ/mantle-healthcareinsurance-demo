@@ -1,0 +1,13 @@
+schema:
+  private:
+    # Open only while the block runs a block-only tool.
+    tool_gate_open:
+      type: bool
+
+    # The signed-in member's requests, written only by load_authorizations.
+    authorizations:
+      type: list
+
+    # load_authorizations ran for a signed-in member: authorizations_on_record is offered only then.
+    loaded:
+      type: bool

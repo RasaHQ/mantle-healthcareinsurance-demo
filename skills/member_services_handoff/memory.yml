@@ -1,0 +1,48 @@
+schema:
+  public:
+    # Set by the block's first step. builtin_continue_interrupted reads it and drops the task that
+    # the handoff interrupted. Only the block writes it.
+    handoff_started:
+      type: bool
+
+    # Written only by the availability check, at the start of every run.
+    hours_status:
+      type: categorical
+      enum_values: [available, unavailable]
+
+  private:
+    # Open only while the block runs a block-only tool.
+    tool_gate_open:
+      type: bool
+
+    # The opening hours, for the closed-hours text.
+    hours_text:
+      type: text
+
+    # The member's answer to the consent question.
+    consent_reply:
+      type: categorical
+      enum_values: ["yes", "no", "unclear"]
+      llm_settable: true
+      description: >-
+        The member's answer to "Do you want me to connect you with a Member Services representative now?": yes; no;
+        unclear if the answer is neither.
+    consent_reply_question_open:
+      type: bool
+
+    # True only after the member's yes to the consent question. Only the post-write tool writes it.
+    consent_given:
+      type: bool
+
+    # The second ask of the consent question.
+    reasked:
+      type: bool
+
+    caller_name:
+      type: text
+      llm_settable: true
+      description: >-
+        The name that the member gives for the representative, in answer to the name question. Asked only
+        when the member is not signed in.
+    caller_name_question_open:
+      type: bool

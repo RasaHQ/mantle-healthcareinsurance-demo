@@ -1,0 +1,23 @@
+scenario:
+  name: "[decline.streak3_no] Three declines in a row offer a representative"
+
+  setup:
+    initial_slots:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Jordan. Ask about the weather, then about a football score, then ask for a poem. When
+    the assistant offers a representative, say no.
+
+  goals:
+    criteria:
+      - The agent declines the three requests
+      - The agent offers a representative after the third
+      - The agent does not transfer the member after the no
+    assertions:
+      - bot_uttered:
+          utter_name: "utter_suggest_representative"
+      - memory_was_not_set:
+          - name: "project.handoff_to_agent"

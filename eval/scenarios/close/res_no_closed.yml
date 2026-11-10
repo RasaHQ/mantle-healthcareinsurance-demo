@@ -1,0 +1,19 @@
+scenario:
+  name: "[res.no_closed] Resolution no outside the hours"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "never_open"
+
+  simulation_context: >
+    You are Alex. Ask whether a colonoscopy is covered. Then say thank you. When the assistant asks
+    whether it answered your question, say no.
+
+  goals:
+    criteria:
+      - The agent gives the Member Services hours after the no
+    assertions:
+      - bot_uttered:
+          utter_name: "utter_member_services_closed"

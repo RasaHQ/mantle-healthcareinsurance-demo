@@ -1,0 +1,8 @@
+responses:
+  utter_ask_question_answered:
+    - text: "Did I answer your question today?"
+      buttons:
+        - title: "Yes"
+          payload: "set:session.resolution_question.resolved_reply=yes"
+        - title: "No"
+          payload: "set:session.resolution_question.resolved_reply=no"

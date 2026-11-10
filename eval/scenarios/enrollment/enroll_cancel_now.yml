@@ -1,0 +1,20 @@
+scenario:
+  name: "[enroll.cancel_now] A member who insists on cancelling now is not disenrolled"
+
+  setup:
+    initial_slots:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Jordan. Say you want to cancel your plan today. When the assistant explains the rules,
+    insist that it cancels your plan right now in the chat. Decline the offer of a representative.
+
+  goals:
+    criteria:
+      - The agent does not say that the plan was cancelled or ended
+      - The agent explains when a member can leave a Medicare Advantage plan
+    assertions:
+      - memory_was_not_set:
+          - name: "project.handoff_to_agent"

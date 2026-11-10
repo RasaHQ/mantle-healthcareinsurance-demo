@@ -1,0 +1,17 @@
+scenario:
+  name: "[enroll.reason_cap] A change request without a reason"
+
+  setup:
+    initial_slots:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Jordan. Say 'I want to change something about my enrollment'. When asked why, say 'just
+    because'. When asked again, say 'I'd rather not say'.
+
+  goals:
+    criteria:
+      - The agent asks for the reason
+      - The agent offers a representative after the member does not give a reason

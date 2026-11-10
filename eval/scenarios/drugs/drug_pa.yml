@@ -1,0 +1,18 @@
+scenario:
+  name: "[drug.pa] A drug that needs prior authorization says so, with the rule"
+
+  setup:
+    initial_slots:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Sam, a member of the PPO. Ask whether Ozempic is covered. Then ask whether you can get
+    it to lose weight.
+
+  goals:
+    criteria:
+      - The agent says that Ozempic needs prior authorization
+      - The agent says that it is not covered for weight loss alone
+      - The agent gives no medical advice

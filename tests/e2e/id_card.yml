@@ -1,0 +1,124 @@
+# One test case per path. The path id is in brackets; `python -m eval.coverage` lists all paths.
+
+metadata:
+  - taylor:
+      member_id: "m1004"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - taylor_app:
+      member_id: "m1004"
+      client_surface: "app"
+      hours_profile: "always_open"
+  - visitor:
+      client_surface: "web"
+      hours_profile: "always_open"
+
+test_cases:
+  - test_case: "[id.web_yes] a new ID card is ordered after a yes to the address"
+    metadata: "taylor"
+    steps:
+      - user: "/session_start"
+      - user: "I lost my ID card"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_id_card_digital"
+              text_matches: "example.com/member"
+          - bot_uttered:
+              utter_name: "utter_ask_card_address"
+              text_matches: "301 Lake Drive"
+      - user: "set:session.id_card.address_reply=yes"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_card_ordered"
+  - test_case: "[id.typed_yes] a typed yes orders the card"
+    metadata: "taylor"
+    steps:
+      - user: "/session_start"
+      - user: "I lost my ID card"
+      - user: "yes, that's right"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_card_ordered"
+  - test_case: "[id.app_variant] in the app, the digital card text names the app"
+    metadata: "taylor_app"
+    steps:
+      - user: "/session_start"
+      - user: "I lost my ID card"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_id_card_digital"
+              text_matches: "this app"
+  - test_case: "[id.wrong_address] a wrong address goes to a representative, and no card is ordered"
+    metadata: "taylor"
+    steps:
+      - user: "/session_start"
+      - user: "Send me a new member card please"
+      - user: "set:session.id_card.address_reply=no"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_card_change_address"
+          - memory_was_not_set:
+              - name: "id_card.order_reference"
+  - test_case: "[id.typed_new_address] a typed new address is not used: a representative changes it"
+    metadata: "taylor"
+    steps:
+      - user: "/session_start"
+      - user: "I lost my ID card"
+      - user: "No, send it to 5 Pine Street instead"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_card_change_address"
+          - memory_was_not_set:
+              - name: "id_card.order_reference"
+  - test_case: "[id.unclear_retry] an unclear address answer is asked again"
+    metadata: "taylor"
+    steps:
+      - user: "/session_start"
+      - user: "I lost my ID card"
+      - user: "hmm"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_card_address"
+      - user: "set:session.id_card.address_reply=yes"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_card_ordered"
+  - test_case: "[id.unclear_twice] two unclear address answers order no card"
+    metadata: "taylor"
+    steps:
+      - user: "/session_start"
+      - user: "I lost my ID card"
+      - user: "hmm"
+      - user: "I don't know"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_card_not_ordered"
+          - memory_was_not_set:
+              - name: "id_card.order_reference"
+  - test_case: "[id.invalid_payload] an invalid button value orders no card"
+    metadata: "taylor"
+    steps:
+      - user: "/session_start"
+      - user: "I lost my ID card"
+      - user: "set:session.id_card.address_reply=maybe"
+        assertions:
+          - memory_was_not_set:
+              - name: "id_card.order_reference"
+  - test_case: "[id.visitor] a visitor gets the sign-in text for a new card"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "set:session.initialize_conversation.membership_reply=member"
+      - user: "set:session.initialize_conversation.plan_reply=hmo"
+      - user: "I lost my ID card"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_sign_in_for_member_data"
+  - test_case: "[id.red_white_blue_card] the question about the Medicare card is answered"
+    metadata: "taylor"
+    steps:
+      - user: "/session_start"
+      - user: "Do I still need my red, white and blue Medicare card?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)red, white and blue"

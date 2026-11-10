@@ -1,0 +1,95 @@
+# One test case per path. The path id is in brackets; `python -m eval.coverage` lists all paths.
+
+metadata:
+  - alex:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - sam:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - jordan:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - morgan:
+      member_id: "m1005"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - visitor:
+      client_surface: "web"
+      hours_profile: "always_open"
+
+test_cases:
+  - test_case: "[auth.pending_medical] a pending authorization gives the decision date"
+    metadata: "morgan"
+    steps:
+      - user: "/session_start"
+      - user: "Has my knee surgery been approved yet?"
+        assertions:
+          - ordered_block_entered:
+              skill_id: "prior_auth_status"
+              block_id: "sequence"
+          - bot_uttered:
+              text_matches: "November 13"
+  - test_case: "[auth.no_prediction] no prediction for a pending request"
+    metadata: "morgan"
+    steps:
+      - user: "/session_start"
+      - user: "Has my knee surgery been approved yet?"
+      - user: "Will it be approved?"
+        assertions:
+          - bot_did_not_utter:
+              text_matches: "(?i)(will be approved|likely approved|should be approved)"
+  - test_case: "[auth.pending_partd] a pending drug coverage request"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "What's happening with my Ozempic request?"
+        assertions:
+          - bot_uttered:
+              text_matches: "November 12"
+  - test_case: "[auth.approved] an approved authorization"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Was my MRI approved?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)approved"
+  - test_case: "[auth.denied] a denied authorization gives the reason and the next step"
+    metadata: "sam"
+    steps:
+      - user: "/session_start"
+      - user: "Was my physical therapy request approved?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)(clinical information|appeal)"
+  - test_case: "[auth.appeal_to_rep] help with an appeal after a denial offers a representative"
+    metadata: "sam"
+    steps:
+      - user: "/session_start"
+      - user: "Was my physical therapy request approved?"
+      - user: "I want help to appeal it"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_consent_to_transfer"
+  - test_case: "[auth.none] a member with no requests"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "Do I have any prior authorizations?"
+        assertions:
+          - bot_did_not_utter:
+              text_matches: "(?i)pending|approved on"
+  - test_case: "[auth.visitor] a visitor gets the sign-in text"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "set:session.initialize_conversation.membership_reply=member"
+      - user: "set:session.initialize_conversation.plan_reply=hmo"
+      - user: "Has my MRI been approved?"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_sign_in_for_member_data"

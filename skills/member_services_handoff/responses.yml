@@ -1,0 +1,18 @@
+responses:
+  utter_ask_consent_to_transfer:
+    - text: "Do you want me to connect you with a Member Services representative now?"
+      buttons:
+        - title: "Yes please"
+          payload: "set:session.member_services_handoff.consent_reply=yes"
+        - title: "No thanks"
+          payload: "set:session.member_services_handoff.consent_reply=no"
+
+  utter_ask_caller_name:
+    - text: "Sure. What name can I give to the representative?"
+
+  utter_connecting_to_representative:
+    - text: "Thanks. I'm connecting you with a Member Services representative now. They can see this conversation. For your privacy, they will verify your identity before they discuss your health information."
+
+  utter_member_services_closed:
+    - text: |-
+        Member Services is closed right now. You can chat with us or call 1-800-555-0199 (TTY 711) during these hours: {session.member_services_handoff.hours_text}.

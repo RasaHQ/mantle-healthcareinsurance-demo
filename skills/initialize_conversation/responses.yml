@@ -1,0 +1,23 @@
+responses:
+  utter_greet_member:
+    - condition: "session.project.first_name_on_file"
+      text: "Hi {session.project.first_name_on_file}, I'm the Rasa Health Insurance virtual assistant. I can help you with questions about your Medicare Advantage plan."
+    - text: "Hi there, I'm the Rasa Health Insurance virtual assistant. I can help you with questions about our Medicare Advantage plans. Rasa Health Insurance is a fictional plan for demonstration."
+
+  utter_ask_membership:
+    - text: "Before I can help, are you a member of a Rasa Advantage plan?"
+      buttons:
+        - title: "I'm a member"
+          payload: "set:session.initialize_conversation.membership_reply=member"
+        - title: "I'm shopping for a plan"
+          payload: "set:session.initialize_conversation.membership_reply=shopper"
+
+  utter_ask_plan:
+    - text: "Which plan are you asking about?"
+      buttons:
+        - title: "Rasa Advantage HMO"
+          payload: "set:session.initialize_conversation.plan_reply=hmo"
+        - title: "Rasa Advantage PPO"
+          payload: "set:session.initialize_conversation.plan_reply=ppo"
+        - title: "I'm not sure"
+          payload: "set:session.initialize_conversation.plan_reply=not_sure"

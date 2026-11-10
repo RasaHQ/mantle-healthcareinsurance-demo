@@ -1,0 +1,11 @@
+schema:
+  private:
+    # Set only by the `check` block, which the model picks when the member names a service.
+    # Not llm_settable: the model cannot open the lookup without the block.
+    service_given:
+      type: bool
+
+    # How often the ask block asked which service, in this run.
+    ask_count:
+      type: int
+      initial_value: 0

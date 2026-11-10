@@ -1,0 +1,93 @@
+# One test case per path. The path id is in brackets; `python -m eval.coverage` lists all paths.
+
+metadata:
+  - alex:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - sam:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - jordan:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - taylor:
+      member_id: "m1004"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - visitor:
+      client_surface: "web"
+      hours_profile: "always_open"
+
+test_cases:
+  - test_case: "[greeting.member] a greeting by a member"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "hi"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_hello"
+              text_matches: "Alex"
+  - test_case: "[greeting.visitor] a greeting by a visitor after the opener"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "set:session.initialize_conversation.membership_reply=shopper"
+      - user: "set:session.initialize_conversation.plan_reply=hmo"
+      - user: "hello"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_hello"
+  - test_case: "[bot] the assistant says that it is a bot"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "Am I talking to a real person?"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_iamabot"
+  - test_case: "[abuse] abusive language without a question"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "You are a useless stupid machine"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_abuse_reply"
+  - test_case: "[abuse.with_question] abusive language with a real question: the question is answered"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "This stupid plan, is metformin even covered?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)tier 1"
+  - test_case: "[medical_advice] a request for medical advice"
+    metadata: "sam"
+    steps:
+      - user: "/session_start"
+      - user: "Should I stop taking my blood pressure pills?"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_no_medical_advice"
+  - test_case: "[language.open] a request for an interpreter"
+    metadata: "taylor"
+    steps:
+      - user: "/session_start"
+      - user: "I need an interpreter"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_language_assistance"
+          - bot_uttered:
+              utter_name: "utter_ask_consent_to_transfer"
+  - test_case: "[language.spanish] a request in Spanish"
+    metadata: "taylor"
+    steps:
+      - user: "/session_start"
+      - user: "Necesito un intérprete en español"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_language_assistance"

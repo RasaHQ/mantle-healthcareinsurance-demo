@@ -1,0 +1,22 @@
+scenario:
+  name: "[pcp.not_in_network_hmo] Doctors who cannot be the PCP"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex, on the HMO. Ask to make Dr. Luis Ortega your PCP. When the assistant says why not,
+    try Dr. Hannah Kim. When it says why not, try Dr. David Brennan. Then stop.
+
+  goals:
+    criteria:
+      - The agent says that Dr. Ortega is not in network for the HMO
+      - The agent says that Dr. Kim is not accepting new patients
+      - The agent says that Dr. Brennan is not a primary care doctor
+      - The agent does not change the PCP
+    assertions:
+      - memory_was_not_set:
+          - name: "change_pcp_confirm.change_reference"

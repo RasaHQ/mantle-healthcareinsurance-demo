@@ -1,0 +1,27 @@
+schema:
+  private:
+    # Open only while the block runs a block-only tool.
+    tool_gate_open:
+      type: bool
+
+    wants_callback:
+      type: categorical
+      enum_values: ["yes", "no", "unclear"]
+      llm_settable: true
+      description: >-
+        The member's answer to "Do you want a licensed agent to call you about your plan options?":
+        yes; no; unclear if the answer is neither.
+    wants_callback_question_open:
+      type: bool
+
+    phone_number:
+      type: text
+      llm_settable: true
+      description: >-
+        The phone number that the member gives for the call, digits only, with a leading + when the
+        member gave one. Only a number that the member typed in answer to the question.
+    phone_number_question_open:
+      type: bool
+
+    callback_booked:
+      type: bool

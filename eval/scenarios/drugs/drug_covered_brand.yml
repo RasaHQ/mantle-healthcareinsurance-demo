@@ -1,0 +1,20 @@
+scenario:
+  name: "[drug.covered_brand] A drug by brand name gives its tier and cost"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex, a member of the HMO. Ask whether Eliquis is covered and what it costs. Then ask
+    what a 90-day supply by mail costs.
+
+  goals:
+    criteria:
+      - The agent says that Eliquis (apixaban) is on the drug list in tier 3
+      - The agent says that a 30-day supply at a preferred pharmacy costs $47
+      - The agent says that a 90-day supply by mail costs $141
+    expected_tools:
+      - tool_called: "check_drug"

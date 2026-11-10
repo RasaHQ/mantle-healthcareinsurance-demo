@@ -1,0 +1,15 @@
+scenario:
+  name: "[benefit.shopper_by_plan] A shopper who is not sure gets both plans"
+
+  setup:
+    initial_slots:
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are shopping for a plan. Say you are not a member yet and you are not sure which plan. Ask
+    what an MRI costs.
+
+  goals:
+    criteria:
+      - The agent gives the MRI cost on both plans, $250 on the HMO and $275 on the PPO

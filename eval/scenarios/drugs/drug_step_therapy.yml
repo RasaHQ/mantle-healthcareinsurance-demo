@@ -1,0 +1,16 @@
+scenario:
+  name: "[drug.step_therapy] Step therapy for Januvia"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Ask whether Januvia is covered. Then ask what you must do to get it.
+
+  goals:
+    criteria:
+      - The agent says that Januvia has step therapy
+      - The agent says that the member must try metformin first, unless the doctor says it is not right for them

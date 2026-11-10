@@ -1,0 +1,28 @@
+schema:
+  public:
+    # Written only by order_card. Not llm_settable and no collect owns it.
+    order_reference:
+      type: text
+
+  private:
+    # Open only while the block runs a block-only tool.
+    tool_gate_open:
+      type: bool
+
+    # The mailing address on file, written by load_address from the member record.
+    mailing_address:
+      type: text
+
+    address_reply:
+      type: categorical
+      enum_values: ["yes", "no", "unclear"]
+      llm_settable: true
+      description: >-
+        The member's answer to "Should we mail the new card to this address?": yes; no (the address is
+        wrong); unclear if the answer is neither.
+    address_reply_question_open:
+      type: bool
+
+    # The second ask of the address question.
+    reasked:
+      type: bool

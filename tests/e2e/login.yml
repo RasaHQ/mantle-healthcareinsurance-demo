@@ -1,0 +1,76 @@
+# One test case per path. The path id is in brackets; `python -m eval.coverage` lists all paths.
+
+metadata:
+  - jordan:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - jordan_app:
+      member_id: "m1003"
+      client_surface: "app"
+      hours_profile: "always_open"
+
+test_cases:
+  - test_case: "[login.forgot_app] a forgotten password in the app"
+    metadata: "jordan_app"
+    steps:
+      - user: "/session_start"
+      - user: "I forgot my password"
+        assertions:
+          - ordered_block_entered:
+              skill_id: "login_help"
+              block_id: "forgot_password"
+          - bot_uttered:
+              utter_name: "utter_forgot_password"
+              text_matches: "app's sign-in screen"
+  - test_case: "[login.forgot_web] a forgotten password on the website"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "I can't remember my password"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_forgot_password"
+              text_matches: "example.com/member"
+  - test_case: "[login.locked] a locked account"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "My account is locked"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_locked_out"
+  - test_case: "[login.register_web] registration on the website"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "How do I create an account?"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_register"
+              text_matches: "example.com/register"
+  - test_case: "[login.register_app] registration in the app"
+    metadata: "jordan_app"
+    steps:
+      - user: "/session_start"
+      - user: "How do I create an account?"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_register"
+              text_matches: "(?i)tap register"
+  - test_case: "[login.family] a caregiver who wants access"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "Can my daughter log in for me?"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_family_login"
+  - test_case: "[login.general] a general sign-in question"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "How do I sign in?"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_login_general"

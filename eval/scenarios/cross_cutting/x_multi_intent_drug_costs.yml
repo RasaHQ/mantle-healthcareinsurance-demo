@@ -1,0 +1,17 @@
+scenario:
+  name: "[x.multi_intent_drug_costs] A drug question and a cost question in one message"
+
+  setup:
+    initial_slots:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Sam. Your first message is 'Is Eliquis covered, and how close am I to my out-of-pocket
+    max?'. Answer any follow-up question.
+
+  goals:
+    criteria:
+      - The agent answers that Eliquis is tier 3
+      - The agent answers that $1,000 is left before the in-network maximum

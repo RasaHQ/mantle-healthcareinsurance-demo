@@ -1,0 +1,228 @@
+{
+  "drugs": {
+    "atorvastatin": {
+      "strengths": [
+        "10 mg",
+        "20 mg",
+        "40 mg",
+        "80 mg"
+      ],
+      "tier": 1,
+      "prior_authorization": false,
+      "step_therapy": false,
+      "quantity_limit": null,
+      "brand_names": [
+        "Lipitor"
+      ]
+    },
+    "lisinopril": {
+      "strengths": [
+        "5 mg",
+        "10 mg",
+        "20 mg"
+      ],
+      "tier": 1,
+      "prior_authorization": false,
+      "step_therapy": false,
+      "quantity_limit": null,
+      "brand_names": [
+        "Zestril",
+        "Prinivil"
+      ]
+    },
+    "metformin": {
+      "strengths": [
+        "500 mg",
+        "850 mg",
+        "1000 mg"
+      ],
+      "tier": 1,
+      "prior_authorization": false,
+      "step_therapy": false,
+      "quantity_limit": null,
+      "brand_names": [
+        "Glucophage"
+      ]
+    },
+    "amlodipine": {
+      "strengths": [
+        "2.5 mg",
+        "5 mg",
+        "10 mg"
+      ],
+      "tier": 1,
+      "prior_authorization": false,
+      "step_therapy": false,
+      "quantity_limit": null,
+      "brand_names": [
+        "Norvasc"
+      ]
+    },
+    "levothyroxine": {
+      "strengths": [
+        "25 mcg",
+        "50 mcg",
+        "75 mcg",
+        "100 mcg"
+      ],
+      "tier": 1,
+      "prior_authorization": false,
+      "step_therapy": false,
+      "quantity_limit": null,
+      "brand_names": [
+        "Synthroid"
+      ]
+    },
+    "omeprazole": {
+      "strengths": [
+        "20 mg",
+        "40 mg"
+      ],
+      "tier": 2,
+      "prior_authorization": false,
+      "step_therapy": false,
+      "quantity_limit": null,
+      "brand_names": [
+        "Prilosec"
+      ]
+    },
+    "sertraline": {
+      "strengths": [
+        "25 mg",
+        "50 mg",
+        "100 mg"
+      ],
+      "tier": 2,
+      "prior_authorization": false,
+      "step_therapy": false,
+      "quantity_limit": null,
+      "brand_names": [
+        "Zoloft"
+      ]
+    },
+    "gabapentin": {
+      "strengths": [
+        "300 mg",
+        "600 mg"
+      ],
+      "tier": 2,
+      "prior_authorization": false,
+      "step_therapy": false,
+      "quantity_limit": "Up to 3 capsules a day",
+      "brand_names": [
+        "Neurontin"
+      ]
+    },
+    "apixaban": {
+      "strengths": [
+        "2.5 mg",
+        "5 mg"
+      ],
+      "tier": 3,
+      "prior_authorization": false,
+      "step_therapy": false,
+      "quantity_limit": "Up to 2 tablets a day",
+      "brand_names": [
+        "Eliquis"
+      ]
+    },
+    "insulin glargine": {
+      "strengths": [
+        "100 units/mL pen"
+      ],
+      "tier": 3,
+      "prior_authorization": false,
+      "step_therapy": false,
+      "quantity_limit": null,
+      "brand_names": [
+        "Lantus",
+        "Basaglar"
+      ],
+      "insulin": true
+    },
+    "sitagliptin": {
+      "strengths": [
+        "25 mg",
+        "50 mg",
+        "100 mg"
+      ],
+      "tier": 3,
+      "prior_authorization": false,
+      "step_therapy": true,
+      "step_therapy_detail": "You must try metformin first, unless your doctor says it is not right for you.",
+      "quantity_limit": "Up to 1 tablet a day",
+      "brand_names": [
+        "Januvia"
+      ]
+    },
+    "semaglutide": {
+      "strengths": [
+        "0.25 mg",
+        "0.5 mg",
+        "1 mg",
+        "2 mg (injection pen)"
+      ],
+      "tier": 3,
+      "prior_authorization": true,
+      "prior_authorization_detail": "Covered for type 2 diabetes when your doctor confirms the diagnosis. Not covered for weight loss alone.",
+      "step_therapy": false,
+      "quantity_limit": "Up to 4 pens every 28 days",
+      "brand_names": [
+        "Ozempic"
+      ]
+    },
+    "rosuvastatin": {
+      "strengths": [
+        "5 mg",
+        "10 mg",
+        "20 mg"
+      ],
+      "tier": 4,
+      "prior_authorization": false,
+      "step_therapy": false,
+      "quantity_limit": null,
+      "brand_names": [
+        "Crestor"
+      ]
+    },
+    "adalimumab": {
+      "strengths": [
+        "40 mg/0.4 mL pen"
+      ],
+      "tier": 5,
+      "prior_authorization": true,
+      "prior_authorization_detail": "Your doctor must send information about your diagnosis and earlier treatment.",
+      "step_therapy": false,
+      "quantity_limit": "Up to 2 pens every 28 days",
+      "brand_names": [
+        "Humira"
+      ],
+      "specialty_pharmacy_only": true
+    }
+  },
+  "excluded_by_law": {
+    "tadalafil": {
+      "brand_names": [
+        "Cialis"
+      ],
+      "reason": "Drugs used for erectile dysfunction are excluded from Medicare Part D by law."
+    },
+    "sildenafil": {
+      "brand_names": [
+        "Viagra"
+      ],
+      "reason": "Drugs used for erectile dysfunction are excluded from Medicare Part D by law."
+    },
+    "orlistat": {
+      "brand_names": [
+        "Xenical",
+        "Alli"
+      ],
+      "reason": "Drugs used for weight loss alone are excluded from Medicare Part D by law."
+    }
+  },
+  "not_on_formulary_next_step": "This drug is not on our drug list. Your doctor can ask us for a formulary exception, or prescribe a covered drug that works the same way. We decide on an exception within 72 hours after we get your doctor's statement, or within 24 hours if waiting could harm your health.",
+  "new_member_transition": "In your first 90 days in the plan, you can get a one-time temporary supply of at least 30 days of a drug that you already take, also when it is not on our drug list or needs prior authorization. Use that time to switch drugs or to ask for an exception.",
+  "pharmacy_network": "You pay less at a preferred pharmacy. Find preferred pharmacies at example.com/pharmacies or in the app.",
+  "mail_order": "Our mail-order pharmacy sends a 90-day supply to your home with free standard shipping. Ask your doctor to send the prescription to the mail-order pharmacy, or sign up at example.com/mailorder or in the app."
+}

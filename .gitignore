@@ -1,0 +1,25 @@
+# Local tooling and secrets
+.claude/
+.mcp.json
+.env
+.venv/
+.vscode/
+.idea/
+
+# Rasa build output
+models/
+.rasa/
+
+# Eval output
+eval/results/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# macOS
+.DS_Store
+
+# Server log of make up
+rasa-server.log

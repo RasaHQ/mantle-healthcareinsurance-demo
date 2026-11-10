@@ -1,0 +1,22 @@
+{
+  "m1001": [
+    {"claim_id": "C-26-41017", "service_date": "2026-10-02", "provider": "Dr. Elena Morales", "service": "Specialist visit (cardiology)", "status": "paid", "billed": 220.00, "plan_paid": 180.00, "you_owe": 40.00},
+    {"claim_id": "C-26-43391", "service_date": "2026-10-28", "provider": "Springfield Imaging Center", "service": "MRI of the brain", "status": "processing", "billed": 1850.00, "plan_paid": null, "you_owe": null},
+    {"claim_id": "C-26-38802", "service_date": "2026-08-14", "provider": "Springfield General Hospital", "service": "Emergency room visit", "status": "paid", "billed": 2400.00, "plan_paid": 2275.00, "you_owe": 125.00}
+  ],
+  "m1002": [
+    {"claim_id": "C-26-42410", "service_date": "2026-10-21", "provider": "Dr. Peter Novak", "service": "Specialist visit (dermatology), out-of-network", "status": "paid", "billed": 300.00, "plan_paid": 180.00, "you_owe": 120.00},
+    {"claim_id": "C-26-40117", "service_date": "2026-09-30", "provider": "Prairie Physical Therapy", "service": "Physical therapy, visit 8", "status": "denied", "billed": 160.00, "plan_paid": 0.00, "you_owe": 0.00, "denial_reason": "No prior authorization was on file for physical therapy after the first 6 visits. The provider may not bill you for this visit."}
+  ],
+  "m1003": [
+    {"claim_id": "C-26-44001", "service_date": "2026-10-15", "provider": "Dr. Samuel Brooks", "service": "Primary care visit", "status": "paid", "billed": 150.00, "plan_paid": 150.00, "you_owe": 0.00}
+  ],
+  "m1004": [
+    {"claim_id": "C-26-39950", "service_date": "2026-09-05", "provider": "Springfield Medical Supply", "service": "CPAP device", "status": "paid", "billed": 900.00, "plan_paid": 720.00, "you_owe": 180.00}
+  ],
+  "m1005": [
+    {"claim_id": "C-26-33120", "service_date": "2026-06-11", "provider": "Springfield General Hospital", "service": "Inpatient hospital stay, 4 days", "status": "paid", "billed": 18400.00, "plan_paid": 17220.00, "you_owe": 1180.00},
+    {"claim_id": "C-26-33121", "service_date": "2026-06-11", "provider": "Springfield EMS", "service": "Emergency ground ambulance", "status": "paid", "billed": 950.00, "plan_paid": 700.00, "you_owe": 250.00},
+    {"claim_id": "C-26-37714", "service_date": "2026-08-02", "provider": "Lakeside Aesthetic Clinic", "service": "Cosmetic procedure", "status": "denied", "billed": 1200.00, "plan_paid": 0.00, "you_owe": 1200.00, "denial_reason": "Cosmetic procedures are not covered by the plan."}
+  ]
+}

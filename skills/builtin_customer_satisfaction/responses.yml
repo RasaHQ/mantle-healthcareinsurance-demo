@@ -1,0 +1,11 @@
+responses:
+  utter_ask_rating:
+    - text: "How was your conversation today?"
+      buttons:
+        - title: "Good"
+          payload: "set:session.builtin_customer_satisfaction.csat_score=satisfied"
+        - title: "Poor"
+          payload: "set:session.builtin_customer_satisfaction.csat_score=unsatisfied"
+
+  utter_thanks_for_rating:
+    - text: "Thanks for your feedback. Have a great day."

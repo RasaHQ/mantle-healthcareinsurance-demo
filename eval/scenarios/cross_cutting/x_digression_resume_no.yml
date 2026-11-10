@@ -1,0 +1,20 @@
+scenario:
+  name: "[x.digression_resume_no] A digression during the ID card question, then no resume"
+
+  setup:
+    initial_slots:
+      member_id: "m1004"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Taylor. Say you lost your ID card. When asked to confirm the address, ask instead how
+    much is left on your OTC card. After the answer, say you no longer need the card.
+
+  goals:
+    criteria:
+      - The agent answers the OTC question
+      - The agent does not order a card
+    assertions:
+      - memory_was_not_set:
+          - name: "id_card.order_reference"

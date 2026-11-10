@@ -1,0 +1,5 @@
+responses:
+  utter_ask_topic:
+    - condition: "session.representative_topic.ask_count >= 2"
+      text: "Sorry, I didn't get that. In a few words, what is it about? For example a claim, a drug, a prior authorization, or changing your plan."
+    - text: "Sure. So that I can connect you with the right team, what do you need help with today?"

@@ -1,0 +1,17 @@
+scenario:
+  name: "[benefit.ppo_oon] An out-of-network specialist on the PPO costs more"
+
+  setup:
+    initial_slots:
+      member_id: "m1004"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Taylor, a member of the PPO. Ask whether you can see a specialist who is not in the
+    network, and what you would pay.
+
+  goals:
+    criteria:
+      - The agent says that the PPO covers a visit to an out-of-network specialist
+      - The agent says that the member pays 40% coinsurance for that visit

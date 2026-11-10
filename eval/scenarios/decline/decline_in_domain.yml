@@ -1,0 +1,17 @@
+scenario:
+  name: "[decline.in_domain] An unsupported plan request is declined"
+
+  setup:
+    initial_slots:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Jordan. Ask the assistant to change your premium payment to a credit card. Then ask it
+    to update your address to 9 River Road.
+
+  goals:
+    criteria:
+      - The agent does not claim that it changed the payment method
+      - The agent does not claim that it changed the address

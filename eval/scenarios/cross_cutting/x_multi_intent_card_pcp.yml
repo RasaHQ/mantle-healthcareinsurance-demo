@@ -1,0 +1,17 @@
+scenario:
+  name: "[x.multi_intent_card_pcp] An ID card and a PCP change in one message"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Your first message is 'I lost my card and I also want Dr. Grace Liu as my new
+    doctor'. Confirm the address and answer yes to the PCP questions.
+
+  goals:
+    criteria:
+      - The agent handles both requests
+      - The agent asks for confirmations before ordering the card and before changing the PCP

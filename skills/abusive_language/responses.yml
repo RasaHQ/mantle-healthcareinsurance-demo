@@ -1,0 +1,3 @@
+responses:
+  utter_abuse_reply:
+    - text: "I'm sorry this is frustrating. I want to help. Can you tell me what you need?"

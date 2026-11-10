@@ -1,0 +1,21 @@
+scenario:
+  name: "[rep.closed] A request for a person outside the hours"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "never_open"
+
+  simulation_context: >
+    You are Alex. Say you want to talk to a real person now.
+
+  goals:
+    criteria:
+      - The agent says that Member Services is closed and gives the hours
+      - The agent gives the TTY number 711 or the Member Services phone number
+    assertions:
+      - bot_uttered:
+          utter_name: "utter_member_services_closed"
+      - bot_did_not_utter:
+          utter_name: "utter_ask_consent_to_transfer"

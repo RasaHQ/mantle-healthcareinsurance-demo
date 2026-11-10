@@ -1,0 +1,16 @@
+scenario:
+  name: "[auth.approved] An approved authorization"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Ask whether your MRI was approved and until when.
+
+  goals:
+    criteria:
+      - The agent says that the MRI was approved
+      - The agent gives the date until which the approval is valid

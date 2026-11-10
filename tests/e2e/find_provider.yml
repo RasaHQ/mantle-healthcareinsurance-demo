@@ -1,0 +1,100 @@
+# One test case per path. The path id is in brackets; `python -m eval.coverage` lists all paths.
+
+metadata:
+  - alex:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - sam:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - visitor:
+      client_surface: "web"
+      hours_profile: "always_open"
+
+test_cases:
+  - test_case: "[provider.name_not_in_network] a doctor's network status for the member's plan"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Is Dr. Robert Patel in network?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)(not in.network|out.of.network|isn.t in|is not in)"
+  - test_case: "[provider.own_pcp] the member's own PCP"
+    metadata: "sam"
+    steps:
+      - user: "/session_start"
+      - user: "Who is my primary care doctor?"
+        assertions:
+          - bot_uttered:
+              text_matches: "Ortega"
+  - test_case: "[provider.specialty_zip] a cardiologist near a ZIP code"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Find me a cardiologist near 62701"
+        assertions:
+          - bot_uttered:
+              text_matches: "Morales"
+  - test_case: "[provider.no_criteria] a request without criteria asks what is needed"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "I need to find a doctor"
+        assertions:
+          - bot_did_not_utter:
+              text_matches: "555-01"
+  - test_case: "[provider.unknown_specialty] a specialty that is not in the directory"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Find me an astrologer"
+        assertions:
+          - bot_did_not_utter:
+              text_matches: "555-01"
+  - test_case: "[provider.language] a doctor who speaks Spanish"
+    metadata: "sam"
+    steps:
+      - user: "/session_start"
+      - user: "Do you have a family doctor who speaks Spanish?"
+        assertions:
+          - bot_uttered:
+              text_matches: "Ortega|Reyes"
+  - test_case: "[provider.not_accepting] a doctor who is not accepting new patients"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Is Dr. Hannah Kim taking new patients?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)not accepting|isn.t accepting|not taking"
+  - test_case: "[provider.ambiguous_name] two doctors with the same last name"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Is Dr. Patel in network?"
+        assertions:
+          - bot_uttered:
+              text_matches: "Maya"
+          - bot_uttered:
+              text_matches: "Robert"
+  - test_case: "[provider.no_match] a name that is not in the directory"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Is Dr. Zhivago in network?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)(no |couldn.t|could not|not find|don.t see|isn.t in our)"
+  - test_case: "[provider.visitor_my_pcp] a visitor cannot see a PCP"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "set:session.initialize_conversation.membership_reply=member"
+      - user: "set:session.initialize_conversation.plan_reply=hmo"
+      - user: "Who is my primary care doctor?"
+        assertions:
+          - bot_did_not_utter:
+              text_matches: "Patel|Ortega|Brooks"

@@ -1,0 +1,17 @@
+{
+  "P101": {"name": "Dr. Maya Patel", "specialty": "family_medicine", "zip": "62701", "city": "Springfield", "networks": ["hmo", "ppo"], "accepting_new_patients": true, "languages": ["English", "Hindi"], "phone": "555-0101"},
+  "P102": {"name": "Dr. Luis Ortega", "specialty": "family_medicine", "zip": "62704", "city": "Springfield", "networks": ["ppo"], "accepting_new_patients": true, "languages": ["English", "Spanish"], "phone": "555-0102"},
+  "P103": {"name": "Dr. Hannah Kim", "specialty": "internal_medicine", "zip": "62702", "city": "Springfield", "networks": ["hmo", "ppo"], "accepting_new_patients": false, "languages": ["English", "Korean"], "phone": "555-0103"},
+  "P104": {"name": "Dr. Samuel Brooks", "specialty": "family_medicine", "zip": "62703", "city": "Springfield", "networks": ["hmo", "ppo"], "accepting_new_patients": true, "languages": ["English"], "phone": "555-0104"},
+  "P106": {"name": "Dr. Daniel Reyes", "specialty": "family_medicine", "zip": "62702", "city": "Springfield", "networks": ["hmo", "ppo"], "accepting_new_patients": true, "languages": ["English", "Spanish"], "phone": "555-0106"},
+  "P107": {"name": "Dr. Sofia Reyes", "specialty": "family_medicine", "zip": "62704", "city": "Springfield", "networks": ["hmo", "ppo"], "accepting_new_patients": true, "languages": ["English", "Spanish"], "phone": "555-0107"},
+  "P105": {"name": "Dr. Grace Liu", "specialty": "internal_medicine", "zip": "62704", "city": "Springfield", "networks": ["hmo"], "accepting_new_patients": true, "languages": ["English", "Mandarin"], "phone": "555-0105"},
+  "P201": {"name": "Dr. Robert Patel", "specialty": "cardiology", "zip": "62702", "city": "Springfield", "networks": ["ppo"], "accepting_new_patients": true, "languages": ["English"], "phone": "555-0111"},
+  "P202": {"name": "Dr. Elena Morales", "specialty": "cardiology", "zip": "62701", "city": "Springfield", "networks": ["hmo", "ppo"], "accepting_new_patients": true, "languages": ["English", "Spanish"], "phone": "555-0112"},
+  "P203": {"name": "Dr. David Brennan", "specialty": "orthopedics", "zip": "62703", "city": "Springfield", "networks": ["hmo", "ppo"], "accepting_new_patients": true, "languages": ["English"], "phone": "555-0113"},
+  "P204": {"name": "Dr. Fatima Hassan", "specialty": "endocrinology", "zip": "62704", "city": "Springfield", "networks": ["hmo", "ppo"], "accepting_new_patients": false, "languages": ["English", "Arabic"], "phone": "555-0114"},
+  "P205": {"name": "Dr. Peter Novak", "specialty": "dermatology", "zip": "62711", "city": "Springfield", "networks": ["ppo"], "accepting_new_patients": true, "languages": ["English"], "phone": "555-0115"},
+  "P206": {"name": "Dr. Olivia Grant", "specialty": "ophthalmology", "zip": "62701", "city": "Springfield", "networks": ["hmo", "ppo"], "accepting_new_patients": true, "languages": ["English"], "phone": "555-0116"},
+  "P207": {"name": "Riverside Behavioral Health", "specialty": "behavioral_health", "zip": "62702", "city": "Springfield", "networks": ["hmo", "ppo"], "accepting_new_patients": true, "languages": ["English", "Spanish"], "phone": "555-0117"},
+  "P208": {"name": "Prairie Physical Therapy", "specialty": "physical_therapy", "zip": "62703", "city": "Springfield", "networks": ["hmo", "ppo"], "accepting_new_patients": true, "languages": ["English"], "phone": "555-0118"}
+}

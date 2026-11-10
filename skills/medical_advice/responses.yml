@@ -1,0 +1,3 @@
+responses:
+  utter_no_medical_advice:
+    - text: "I can't give medical advice. Please ask your doctor or your pharmacist. You can also call our 24/7 Nurse Line at 1-800-555-0188 (TTY 711) at no cost. If this is an emergency, call 911."

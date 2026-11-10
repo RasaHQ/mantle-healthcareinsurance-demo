@@ -1,0 +1,25 @@
+scenario:
+  name: "[pcp.typed_yes_yes] A PCP change happens only after two confirmations"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex, a member of the HMO. Say you want Dr. Grace Liu as your new primary care doctor.
+    Answer yes to the question whether to continue, and yes to the final confirmation.
+
+  goals:
+    criteria:
+      - The agent says from which date the new PCP applies
+      - The agent asks the member to continue and then to confirm before it changes the PCP
+      - The agent gives a reference for the change
+    assertions:
+      - sequencing:
+          - memory_was_set: "change_pcp_confirm.proceed_reply"
+          - memory_was_set: "change_pcp_confirm.confirm_reply"
+          - memory_was_set: "change_pcp_confirm.change_reference"
+    expected_tools:
+      - tool_called: "submit_pcp_change"

@@ -1,0 +1,20 @@
+# The surface picks the variant: the steps in the app differ from the steps on the website.
+responses:
+  utter_forgot_password:
+    - condition: "session.project.client_surface == 'app'"
+      text: "No problem. On the app's sign-in screen, tap Forgot password and enter your email address. We'll email you a link to set a new password. The link works for 30 minutes."
+    - text: "No problem. Go to example.com/member, select Forgot password and enter your email address. We'll email you a link to set a new password. The link works for 30 minutes."
+
+  utter_locked_out:
+    - text: "For your security, your account locks after 5 wrong passwords in a row. It unlocks by itself after 30 minutes. To get in right away, reset your password with Forgot password."
+
+  utter_family_login:
+    - text: "Someone who helps you, such as a family member, can't use your login. To let them talk with us for you, fill out an Appointment of Representative form (CMS-1696) or send us a power of attorney. A Member Services representative can explain how."
+
+  utter_register:
+    - condition: "session.project.client_surface == 'app'"
+      text: "To create your account, tap Register on the app's sign-in screen and enter your member ID (on your Rasa Advantage ID card), your date of birth and your ZIP code."
+    - text: "To create your account, go to example.com/register and enter your member ID (on your Rasa Advantage ID card), your date of birth and your ZIP code."
+
+  utter_login_general:
+    - text: "You can sign in at example.com/member or in the Rasa Health Insurance app, with your email address and password. If you forgot your password, select Forgot password on the sign-in screen."

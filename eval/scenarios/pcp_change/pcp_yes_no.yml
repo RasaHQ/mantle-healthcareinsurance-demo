@@ -1,0 +1,20 @@
+scenario:
+  name: "[pcp.yes_no] A no at the final confirmation keeps the PCP"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Ask to make Dr. Grace Liu your PCP. Say yes to continue, then change your mind and
+    say no at the final confirmation.
+
+  goals:
+    criteria:
+      - The agent says that the PCP stays the same
+      - The agent does not give a change reference
+    assertions:
+      - memory_was_not_set:
+          - name: "change_pcp_confirm.change_reference"

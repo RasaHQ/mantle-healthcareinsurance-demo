@@ -1,0 +1,16 @@
+scenario:
+  name: "[claim.summary] A summary of all claims"
+
+  setup:
+    initial_slots:
+      member_id: "m1005"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Morgan. Ask for a list of all your claims this year and what you owe in total.
+
+  goals:
+    criteria:
+      - The agent lists the hospital stay, the ambulance and the denied cosmetic procedure
+      - The agent does not invent a claim

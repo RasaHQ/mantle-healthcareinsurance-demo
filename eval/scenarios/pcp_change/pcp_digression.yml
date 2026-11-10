@@ -1,0 +1,19 @@
+scenario:
+  name: "[pcp.digression] A question during the PCP confirmation, then back"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Ask to make Dr. Grace Liu your PCP. When the assistant asks whether to continue,
+    ask instead whether Eliquis is covered. After the answer, say you want to continue with the PCP
+    change, and say yes to the remaining questions.
+
+  goals:
+    criteria:
+      - The agent answers the Eliquis question
+      - The agent returns to the PCP change
+      - The agent changes the PCP only after the member confirms

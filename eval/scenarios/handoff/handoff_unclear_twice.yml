@@ -1,0 +1,19 @@
+scenario:
+  name: "[handoff.unclear_twice] Two unclear consent answers transfer nobody"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Ask to file a complaint. When asked whether you want a representative now, answer
+    'I don't know' and then 'maybe later'.
+
+  goals:
+    criteria:
+      - The agent does not transfer the member
+    assertions:
+      - memory_was_not_set:
+          - name: "project.handoff_to_agent"

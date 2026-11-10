@@ -1,0 +1,16 @@
+scenario:
+  name: "[drug.excluded] A drug that the law excludes"
+
+  setup:
+    initial_slots:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Sam. Ask whether Cialis is covered. If the assistant says no, ask why.
+
+  goals:
+    criteria:
+      - The agent says that Cialis is not covered
+      - The agent says that the law excludes drugs for erectile dysfunction from Part D

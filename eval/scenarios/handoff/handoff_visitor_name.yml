@@ -1,0 +1,20 @@
+scenario:
+  name: "[handoff.visitor_name] A visitor gives a name before the transfer"
+
+  setup:
+    initial_slots:
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are a member who is not signed in, on the HMO. Ask for an interpreter. Accept the offer of a
+    representative. When asked for a name, give 'Chris Morgan'.
+
+  goals:
+    criteria:
+      - The agent asks for a name before the transfer
+      - The agent connects the person to a representative
+    assertions:
+      - memory_was_set:
+          - name: "project.handoff_to_agent"
+            value: true

@@ -1,0 +1,15 @@
+scenario:
+  name: "[auth.pending_partd] A pending drug coverage request"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Ask what is happening with your doctor's request for Ozempic.
+
+  goals:
+    criteria:
+      - The agent says that the drug coverage request is pending with a decision due by November 12, 2026

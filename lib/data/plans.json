@@ -1,0 +1,140 @@
+{
+  "plan_year": 2026,
+  "plans": {
+    "hmo": {
+      "name": "Rasa Advantage HMO",
+      "monthly_premium": "$0",
+      "max_out_of_pocket": "$6,700 a year for in-network services",
+      "network": "HMO: you must use in-network providers, except for emergency care, urgent care when you are outside the service area, and dialysis when you are temporarily outside the service area. You need a referral from your primary care provider (PCP) to see a specialist.",
+      "out_of_network": "Not covered, except emergency care, urgent care when you are outside the service area, and out-of-area dialysis.",
+      "medical": {
+        "primary_care": "$0 copay per visit",
+        "specialist": "$40 copay per visit",
+        "urgent_care": "$40 copay per visit",
+        "emergency_room": "$125 copay per visit, anywhere in the United States. The copay is waived if you are admitted to the hospital within 24 hours.",
+        "inpatient_hospital": "$295 copay per day for days 1 to 5, then $0 for the rest of the stay",
+        "skilled_nursing": "$0 per day for days 1 to 20, $203 per day for days 21 to 100",
+        "mri_ct": "$250 copay per scan",
+        "lab_tests": "$0 copay",
+        "colonoscopy": "$0 copay for a screening colonoscopy",
+        "annual_wellness": "$0 copay",
+        "telehealth": "$0 copay for a virtual visit with an in-network provider",
+        "ambulance": "$250 copay per one-way trip",
+        "durable_medical_equipment": "20% coinsurance",
+        "diabetic_supplies": "$0 copay for glucose monitors and test strips from preferred brands",
+        "physical_therapy": "$30 copay per visit",
+        "mental_health": "$20 copay per individual therapy visit",
+        "acupuncture": "$20 copay per visit, for chronic low back pain only: up to 12 visits in 90 days, and up to 20 visits a year",
+        "cosmetic_surgery": "Not covered"
+      },
+      "pharmacy": {
+        "deductible": "$0 for tiers 1 and 2; $250 for tiers 3, 4 and 5",
+        "tiers": {
+          "1": {
+            "name": "Preferred generic",
+            "preferred_retail_30_day": "$0",
+            "standard_retail_30_day": "$5",
+            "mail_order_90_day": "$0"
+          },
+          "2": {
+            "name": "Generic",
+            "preferred_retail_30_day": "$10",
+            "standard_retail_30_day": "$20",
+            "mail_order_90_day": "$0"
+          },
+          "3": {
+            "name": "Preferred brand",
+            "preferred_retail_30_day": "$47",
+            "standard_retail_30_day": "$47",
+            "mail_order_90_day": "$141"
+          },
+          "4": {
+            "name": "Non-preferred drug",
+            "preferred_retail_30_day": "40% coinsurance",
+            "standard_retail_30_day": "40% coinsurance",
+            "mail_order_90_day": "40% coinsurance"
+          },
+          "5": {
+            "name": "Specialty",
+            "preferred_retail_30_day": "25% coinsurance",
+            "standard_retail_30_day": "25% coinsurance",
+            "mail_order_90_day": "Not available: a 30-day supply only"
+          }
+        }
+      },
+      "max_out_of_pocket_in_network_amount": 6700
+    },
+    "ppo": {
+      "name": "Rasa Advantage PPO",
+      "monthly_premium": "$39, in addition to your Medicare Part B premium",
+      "max_out_of_pocket": "$7,900 a year for in-network services, and $11,500 a year for in-network and out-of-network services combined",
+      "network": "PPO: you can see any provider who accepts Medicare. You pay less with in-network providers. You do not need a referral to see a specialist.",
+      "out_of_network": "Covered at a higher cost: 40% coinsurance for most services. Emergency care costs the same in and out of network.",
+      "medical": {
+        "primary_care": "$5 copay per visit in-network",
+        "specialist": "$45 copay per visit in-network; 40% coinsurance out-of-network",
+        "urgent_care": "$45 copay per visit",
+        "emergency_room": "$125 copay per visit, anywhere in the United States. The copay is waived if you are admitted to the hospital within 24 hours.",
+        "inpatient_hospital": "$325 copay per day for days 1 to 5, then $0 for the rest of the stay (in-network)",
+        "skilled_nursing": "$0 per day for days 1 to 20, $203 per day for days 21 to 100 (in-network)",
+        "mri_ct": "$275 copay per scan in-network",
+        "lab_tests": "$0 copay in-network",
+        "colonoscopy": "$0 copay for a screening colonoscopy in-network",
+        "annual_wellness": "$0 copay",
+        "telehealth": "$0 copay for a virtual visit with an in-network provider",
+        "ambulance": "$275 copay per one-way trip",
+        "durable_medical_equipment": "20% coinsurance",
+        "diabetic_supplies": "$0 copay for glucose monitors and test strips from preferred brands",
+        "physical_therapy": "$35 copay per visit in-network",
+        "mental_health": "$25 copay per individual therapy visit in-network",
+        "acupuncture": "$25 copay per visit, for chronic low back pain only: up to 12 visits in 90 days, and up to 20 visits a year",
+        "cosmetic_surgery": "Not covered"
+      },
+      "pharmacy": {
+        "deductible": "$0 for tiers 1 and 2; $250 for tiers 3, 4 and 5",
+        "tiers": {
+          "1": {
+            "name": "Preferred generic",
+            "preferred_retail_30_day": "$3",
+            "standard_retail_30_day": "$8",
+            "mail_order_90_day": "$0"
+          },
+          "2": {
+            "name": "Generic",
+            "preferred_retail_30_day": "$12",
+            "standard_retail_30_day": "$22",
+            "mail_order_90_day": "$10"
+          },
+          "3": {
+            "name": "Preferred brand",
+            "preferred_retail_30_day": "$47",
+            "standard_retail_30_day": "$47",
+            "mail_order_90_day": "$141"
+          },
+          "4": {
+            "name": "Non-preferred drug",
+            "preferred_retail_30_day": "40% coinsurance",
+            "standard_retail_30_day": "40% coinsurance",
+            "mail_order_90_day": "40% coinsurance"
+          },
+          "5": {
+            "name": "Specialty",
+            "preferred_retail_30_day": "25% coinsurance",
+            "standard_retail_30_day": "25% coinsurance",
+            "mail_order_90_day": "Not available: a 30-day supply only"
+          }
+        }
+      },
+      "max_out_of_pocket_in_network_amount": 7900,
+      "max_out_of_pocket_combined_amount": 11500
+    }
+  },
+  "program": {
+    "part_d_out_of_pocket_cap": "$2,100 in 2026. When your out-of-pocket drug costs reach $2,100, you pay $0 for covered Part D drugs for the rest of the year.",
+    "insulin": "Covered insulin costs no more than $35 for a one-month supply, and the drug deductible does not apply.",
+    "prescription_payment_plan": "The Medicare Prescription Payment Plan lets you pay your drug costs in monthly amounts across the year instead of at the pharmacy. It does not lower your costs.",
+    "part_b_premium": "You keep paying your Medicare Part B premium while you are in a Medicare Advantage plan.",
+    "emergency": "Emergency care and urgently needed care are covered anywhere in the United States, in or out of network, without prior authorization.",
+    "part_d_out_of_pocket_cap_amount": 2100
+  }
+}

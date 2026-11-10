@@ -1,0 +1,17 @@
+scenario:
+  name: "[extras.otc_hmo] The OTC balance comes from the member's data"
+
+  setup:
+    initial_slots:
+      member_id: "m1005"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Morgan, a member of the HMO. Ask how much money is left on your OTC card, and whether it
+    carries over.
+
+  goals:
+    criteria:
+      - The agent says that $35 is left this quarter
+      - The agent says that unused money does not carry over to the next quarter

@@ -1,0 +1,153 @@
+# One test case per path. The path id is in brackets; `python -m eval.coverage` lists all paths.
+
+metadata:
+  - jordan:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - taylor:
+      member_id: "m1004"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - visitor:
+      client_surface: "web"
+      hours_profile: "always_open"
+
+test_cases:
+  - test_case: "[enroll.switch_callback_yes] a switch request: enrollment periods, then a callback is booked"
+    metadata: "taylor"
+    steps:
+      - user: "/session_start"
+      - user: "Can I switch to the HMO?"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_enrollment_periods"
+          - bot_uttered:
+              utter_name: "utter_ask_wants_callback"
+      - user: "set:session.agent_callback.wants_callback=yes"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_phone_number"
+      - user: "555 014 2777"
+        assertions:
+          - memory_was_set:
+              - name: "agent_callback.callback_booked"
+                value: true
+          - bot_uttered:
+              utter_name: "utter_callback_booked"
+  - test_case: "[callback.no] a no to the callback books nothing"
+    metadata: "taylor"
+    steps:
+      - user: "/session_start"
+      - user: "Can I switch to the HMO?"
+      - user: "no thanks"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_what_else"
+          - memory_was_not_set:
+              - name: "agent_callback.callback_booked"
+  - test_case: "[callback.unclear] an unclear callback answer books nothing"
+    metadata: "taylor"
+    steps:
+      - user: "/session_start"
+      - user: "Can I switch to the HMO?"
+      - user: "maybe some other time"
+        assertions:
+          - memory_was_not_set:
+              - name: "agent_callback.callback_booked"
+  - test_case: "[callback.invalid_phone] an invalid phone number is asked again"
+    metadata: "taylor"
+    steps:
+      - user: "/session_start"
+      - user: "Can I switch to the HMO?"
+      - user: "set:session.agent_callback.wants_callback=yes"
+      - user: "abc"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_phone_number"
+          - memory_was_not_set:
+              - name: "agent_callback.callback_booked"
+      - user: "555 014 2777"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_callback_booked"
+  - test_case: "[enroll.leave] a member who wants to cancel gets the rules and no disenrollment"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "I want to cancel my plan"
+        assertions:
+          - ordered_block_entered:
+              skill_id: "enrollment_changes"
+              block_id: "leave_plan"
+          - bot_uttered:
+              utter_name: "utter_enrollment_leave"
+          - bot_uttered:
+              utter_name: "utter_enrollment_periods"
+          - bot_uttered:
+              utter_name: "utter_ask_consent_to_transfer"
+  - test_case: "[enroll.moving] a move gives the special enrollment period"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "I'm moving to Florida next month"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_enrollment_moving"
+          - bot_uttered:
+              utter_name: "utter_ask_consent_to_transfer"
+  - test_case: "[enroll.medicaid] Medicaid gives the special enrollment period"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "I just got Medicaid"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_enrollment_medicaid"
+          - bot_uttered:
+              utter_name: "utter_ask_consent_to_transfer"
+  - test_case: "[enroll.open_enrollment_question] a question about open enrollment gets the periods"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "When is open enrollment?"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_enrollment_periods"
+  - test_case: "[enroll.reason_once] a change request without a reason asks for it"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "I want to make a change to my enrollment"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_enrollment_reason"
+  - test_case: "[enroll.reason_twice] a second answer without a reason is asked again"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "I want to make a change to my enrollment"
+      - user: "just a change"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_enrollment_reason"
+  - test_case: "[enroll.reason_cap] a third answer without a reason offers a representative"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "I want to make a change to my enrollment"
+      - user: "just a change"
+      - user: "I'd rather not say"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_consent_to_transfer"
+  - test_case: "[enroll.shopper] a shopper who asks when they can join gets the periods"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "set:session.initialize_conversation.membership_reply=shopper"
+      - user: "set:session.initialize_conversation.plan_reply=not_sure"
+      - user: "When can I join one of your plans?"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_enrollment_periods"

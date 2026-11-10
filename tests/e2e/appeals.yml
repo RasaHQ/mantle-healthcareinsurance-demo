@@ -1,0 +1,52 @@
+# One test case per path. The path id is in brackets; `python -m eval.coverage` lists all paths.
+
+metadata:
+  - taylor:
+      member_id: "m1004"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - visitor:
+      client_surface: "web"
+      hours_profile: "always_open"
+
+test_cases:
+  - test_case: "[appeals.appeal] an appeal question gets the appeal rules"
+    metadata: "taylor"
+    steps:
+      - user: "/session_start"
+      - user: "How do I appeal a denial?"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_appeal_rules"
+          - bot_uttered:
+              utter_name: "utter_ask_consent_to_transfer"
+  - test_case: "[appeals.grievance] a complaint gets the grievance rules"
+    metadata: "taylor"
+    steps:
+      - user: "/session_start"
+      - user: "I want to file a complaint about my doctor's office"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_grievance_rules"
+  - test_case: "[appeals.ask_type] an unclear request asks appeal or complaint"
+    metadata: "taylor"
+    steps:
+      - user: "/session_start"
+      - user: "I want to file something about a problem I had"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_appeal_or_grievance"
+      - user: "I want to appeal a decision"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_appeal_rules"
+  - test_case: "[appeals.visitor] a visitor gets the appeal rules"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "set:session.initialize_conversation.membership_reply=member"
+      - user: "set:session.initialize_conversation.plan_reply=ppo"
+      - user: "How do I appeal a denial?"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_appeal_rules"

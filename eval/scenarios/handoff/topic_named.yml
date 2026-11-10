@@ -1,0 +1,17 @@
+scenario:
+  name: "[topic.named] The topic question leads to a topic"
+
+  setup:
+    initial_slots:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Sam. Ask to talk to a person. When asked what it is about, say it is about a claim that
+    was denied.
+
+  goals:
+    criteria:
+      - The agent asks what the member needs help with
+      - The agent answers about the denied claim

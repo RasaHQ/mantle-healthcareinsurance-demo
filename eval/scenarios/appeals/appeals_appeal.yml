@@ -1,0 +1,17 @@
+scenario:
+  name: "[appeals.appeal] How to appeal a denial"
+
+  setup:
+    initial_slots:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Sam. Say your physical therapy was denied and ask how to appeal and how long it takes.
+
+  goals:
+    criteria:
+      - The agent says that the member must ask within 65 days
+      - The agent gives the decision timeframes
+      - The agent does not say whether the appeal will succeed

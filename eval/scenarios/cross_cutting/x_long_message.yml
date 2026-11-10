@@ -1,0 +1,17 @@
+scenario:
+  name: "[x.long_message] A very long message with one question"
+
+  setup:
+    initial_slots:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Jordan. Write one long message of at least 8 sentences about your week, your
+    grandchildren and your garden, and end with 'anyway, does my plan cover a flu shot or a wellness
+    visit?'.
+
+  goals:
+    criteria:
+      - The agent answers the question about the annual wellness visit

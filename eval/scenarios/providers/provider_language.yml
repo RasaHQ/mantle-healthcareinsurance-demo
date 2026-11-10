@@ -1,0 +1,15 @@
+scenario:
+  name: "[provider.language] A doctor who speaks Spanish"
+
+  setup:
+    initial_slots:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Sam. Ask for a family doctor who speaks Spanish.
+
+  goals:
+    criteria:
+      - The agent names at least one in-network family doctor who speaks Spanish, from the directory

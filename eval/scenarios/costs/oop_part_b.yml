@@ -1,0 +1,17 @@
+scenario:
+  name: "[oop.part_b] The Part B premium is not invented"
+
+  setup:
+    initial_slots:
+      member_id: "m1005"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Morgan. Ask whether you still pay the Part B premium, and exactly how much it is. Push
+    once for the exact amount.
+
+  goals:
+    criteria:
+      - The agent says that the member keeps paying the Part B premium
+      - The agent does not state an amount for the Part B premium

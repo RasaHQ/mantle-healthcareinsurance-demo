@@ -1,0 +1,152 @@
+# One test case per path. The path id is in brackets; `python -m eval.coverage` lists all paths.
+
+metadata:
+  - alex:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - visitor:
+      client_surface: "web"
+      hours_profile: "always_open"
+  - unknown_id:
+      member_id: "m9999"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+test_cases:
+  - test_case: "[init.member_greeted] a signed-in member is greeted by name and asked nothing"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_greet_member"
+              text_matches: "Hi Alex"
+          - bot_did_not_utter:
+              utter_name: "utter_ask_membership"
+          - memory_was_set:
+              - name: "project.membership"
+                value: "member"
+              - name: "project.plan_type"
+                value: "hmo"
+  - test_case: "[init.visitor_buttons] a visitor answers both opener questions with buttons"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_membership"
+      - user: "set:session.initialize_conversation.membership_reply=shopper"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_plan"
+      - user: "set:session.initialize_conversation.plan_reply=ppo"
+        assertions:
+          - memory_was_set:
+              - name: "project.membership"
+                value: "shopper"
+              - name: "project.plan_type"
+                value: "ppo"
+          - bot_uttered:
+              utter_name: "utter_offer_help"
+  - test_case: "[init.visitor_typed] a visitor answers both opener questions in words"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "I'm already a member"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_plan"
+      - user: "I have the HMO"
+        assertions:
+          - memory_was_set:
+              - name: "project.membership"
+                value: "member"
+              - name: "project.plan_type"
+                value: "hmo"
+          - bot_uttered:
+              utter_name: "utter_offer_help"
+  - test_case: "[init.visitor_not_sure] a visitor who is not sure of the plan"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "set:session.initialize_conversation.membership_reply=shopper"
+      - user: "I'm not sure"
+        assertions:
+          - memory_was_set:
+              - name: "project.plan_type"
+                value: "not_sure"
+  - test_case: "[init.membership_unclear_retry] an answer that names no membership option is asked again"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "banana"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_membership"
+          - memory_was_not_set:
+              - name: "project.membership"
+      - user: "set:session.initialize_conversation.membership_reply=member"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_plan"
+  - test_case: "[init.plan_unclear_retry] an answer that names no plan is asked again"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "set:session.initialize_conversation.membership_reply=member"
+      - user: "the blue one"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_plan"
+          - memory_was_not_set:
+              - name: "project.plan_type"
+  - test_case: "[init.both_answers_in_one_msg] membership and plan in one message"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "I'm a member on the PPO"
+        assertions:
+          - memory_was_set:
+              - name: "project.membership"
+                value: "member"
+              - name: "project.plan_type"
+                value: "ppo"
+          - bot_did_not_utter:
+              utter_name: "utter_ask_plan"
+  - test_case: "[init.parked_request] a question typed at the opener is answered after the questions"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "Do I need a referral to see a specialist?"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_membership"
+      - user: "set:session.initialize_conversation.membership_reply=shopper"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_plan"
+      - user: "set:session.initialize_conversation.plan_reply=hmo"
+        assertions:
+          - memory_was_set:
+              - name: "project.pending_request"
+                value: "Do I need a referral to see a specialist?"
+          - bot_uttered:
+              text_matches: "(?i)referral"
+  - test_case: "[init.unknown_seeded_id] an unknown member id is treated as a visitor"
+    metadata: "unknown_id"
+    steps:
+      - user: "/session_start"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_membership"
+          - memory_was_not_set:
+              - name: "project.first_name_on_file"
+  - test_case: "[init.non_topic_at_opener] a greeting at the opener gets the open question again"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "hello"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_membership"

@@ -1,0 +1,20 @@
+scenario:
+  name: "[adv.no_unrequested_transfer] A frustrated member who does not ask for a person"
+
+  setup:
+    initial_slots:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Jordan. Ask about your out-of-pocket maximum. Then say the answer is annoying, but do
+    not ask for a person. Then say goodbye.
+
+  goals:
+    criteria:
+      - The agent does not transfer the member to a person
+      - The agent answers the out-of-pocket question
+    assertions:
+      - memory_was_not_set:
+          - name: "project.handoff_to_agent"

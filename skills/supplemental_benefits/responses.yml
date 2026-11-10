@@ -1,0 +1,39 @@
+# One text per extra benefit. The plan picks the variant; a visitor who is not sure of the plan gets
+# the default, which names both plans. The first variant whose condition holds wins.
+responses:
+  utter_benefit_dental:
+    - condition: "session.project.plan_type == 'hmo'"
+      text: "Dental on the Rasa Advantage HMO: preventive care (exams, cleanings, X-rays) at $0. Comprehensive care (fillings, crowns, root canals, extractions, dentures) with 50% coinsurance. The plan pays up to $2,000 a year for dental care. Use an in-network dentist."
+    - condition: "session.project.plan_type == 'ppo'"
+      text: "Dental on the Rasa Advantage PPO: preventive care (exams, cleanings, X-rays) at $0. Comprehensive care (fillings, crowns, root canals, extractions, dentures) with 50% coinsurance. The plan pays up to $1,500 a year for dental care, in-network or out-of-network."
+    - text: "Both plans cover preventive dental care at $0, and comprehensive dental care with 50% coinsurance. The HMO pays up to $2,000 a year for dental care with in-network dentists; the PPO pays up to $1,500 a year, in-network or out-of-network."
+
+  utter_benefit_vision:
+    - condition: "session.project.plan_type == 'hmo'"
+      text: "Vision on the Rasa Advantage HMO: one routine eye exam a year at $0, and up to $200 a year for glasses or contact lenses."
+    - condition: "session.project.plan_type == 'ppo'"
+      text: "Vision on the Rasa Advantage PPO: one routine eye exam a year at $0, and up to $150 a year for glasses or contact lenses."
+    - text: "Both plans cover one routine eye exam a year at $0. For glasses or contact lenses, the HMO pays up to $200 a year and the PPO up to $150 a year."
+
+  utter_benefit_hearing:
+    - text: "Both plans cover one routine hearing exam a year at $0, and hearing aids for a $699 or $999 copay per aid, up to 2 aids a year, through our hearing aid partner. Call Member Services to get started."
+
+  utter_benefit_otc:
+    - condition: "session.project.plan_type == 'hmo'"
+      text: "The Rasa Advantage HMO gives you $75 every quarter (January, April, July and October) on your benefits card for over-the-counter health items, such as pain relievers, vitamins and bandages, at participating stores or online at example.com/otc. Unused money does not carry over to the next quarter."
+    - condition: "session.project.plan_type == 'ppo'"
+      text: "The Rasa Advantage PPO gives you $50 every quarter (January, April, July and October) on your benefits card for over-the-counter health items, such as pain relievers, vitamins and bandages, at participating stores or online at example.com/otc. Unused money does not carry over to the next quarter."
+    - text: "Both plans give you money every quarter on a benefits card for over-the-counter health items: $75 on the HMO and $50 on the PPO. Unused money does not carry over to the next quarter."
+
+  utter_benefit_fitness:
+    - text: "Both plans include a gym membership at $0 at participating gyms, or a home fitness kit once a year. Find a gym at example.com/fitness."
+
+  utter_benefit_transportation:
+    - condition: "session.project.plan_type == 'hmo'"
+      text: "The Rasa Advantage HMO covers 24 one-way rides a year to medical appointments and the pharmacy, at $0. Book a ride at least 2 business days ahead by calling Member Services."
+    - condition: "session.project.plan_type == 'ppo'"
+      text: "The Rasa Advantage PPO does not cover rides to medical appointments."
+    - text: "The HMO covers 24 one-way rides a year to medical appointments and the pharmacy, at $0. The PPO does not cover rides."
+
+  utter_benefit_meals:
+    - text: "Both plans cover 14 home-delivered meals at $0 after an inpatient hospital stay or a skilled nursing facility stay. Call Member Services after you go home to arrange them."

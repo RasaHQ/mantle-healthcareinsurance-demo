@@ -1,0 +1,126 @@
+# One test case per path. The path id is in brackets; `python -m eval.coverage` lists all paths.
+
+metadata:
+  - jordan:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - jordan_closed:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "never_open"
+
+test_cases:
+  - test_case: "[decline.out_of_domain] a question outside the domain gets the decline"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "What's the weather like tomorrow?"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_decline_out_of_domain_out_of_scope"
+          - bot_did_not_utter:
+              utter_name: "utter_ask_consent_to_transfer"
+  - test_case: "[decline.in_domain] an unsupported plan request gets the in-domain decline"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "Can you switch my premium payment to my credit card?"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_decline_in_domain_out_of_scope"
+  - test_case: "[decline.part_b_amount] the Part B premium amount is not invented"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "What is the exact amount of my Part B premium?"
+        assertions:
+          - bot_did_not_utter:
+              text_matches: "\\$2\\d\\d\\.\\d\\d"
+  - test_case: "[decline.refill] ordering a refill is not something the assistant does"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "Please order a refill of my metformin"
+        assertions:
+          - bot_did_not_utter:
+              text_matches: "(?i)(ordered|refill is on its way|placed)"
+  - test_case: "[decline.appointment] booking a doctor appointment is declined"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "Book me an appointment with my doctor next Tuesday"
+        assertions:
+          - bot_did_not_utter:
+              text_matches: "(?i)(booked|scheduled)"
+  - test_case: "[decline.streak3_yes] the third decline in a row offers a representative; yes transfers"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "What's the weather like tomorrow?"
+      - user: "Who won the football game last night?"
+      - user: "Write me a poem about cats"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_suggest_representative"
+          - bot_uttered:
+              utter_name: "utter_ask_consent_to_transfer"
+      - user: "set:session.member_services_handoff.consent_reply=yes"
+        assertions:
+          - memory_was_set:
+              - name: "project.handoff_to_agent"
+                value: true
+  - test_case: "[decline.streak3_no] the third decline, then no"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "What's the weather like tomorrow?"
+      - user: "Who won the football game last night?"
+      - user: "Write me a poem about cats"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_consent_to_transfer"
+      - user: "no thanks"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_what_else"
+          - memory_was_not_set:
+              - name: "project.handoff_to_agent"
+  - test_case: "[decline.streak3_closed] the third decline outside the hours gives the hours"
+    metadata: "jordan_closed"
+    steps:
+      - user: "/session_start"
+      - user: "What's the weather like tomorrow?"
+      - user: "Who won the football game last night?"
+      - user: "Write me a poem about cats"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_suggest_representative"
+          - bot_uttered:
+              utter_name: "utter_member_services_closed"
+  - test_case: "[decline.streak_reset_by_topic] a topic between declines resets the count"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "What's the weather like tomorrow?"
+      - user: "Is Eliquis covered?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)tier 3"
+      - user: "Who won the football game last night?"
+      - user: "Write me a poem about cats"
+        assertions:
+          - bot_did_not_utter:
+              utter_name: "utter_suggest_representative"
+  - test_case: "[decline.after_decline_hook] a real question right after a decline is answered"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "What's the weather like tomorrow?"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_decline_out_of_domain_out_of_scope"
+      - user: "ok, then is metformin covered?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)tier 1"

@@ -1,0 +1,371 @@
+# One test case per path. The path id is in brackets; `python -m eval.coverage` lists all paths.
+
+metadata:
+  - alex:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - alex_closed:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "never_open"
+  - sam:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - sam_closed:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "never_open"
+  - jordan:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - jordan_closed:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "never_open"
+  - taylor_closed:
+      member_id: "m1004"
+      client_surface: "web"
+      hours_profile: "never_open"
+  - visitor:
+      client_surface: "web"
+      hours_profile: "always_open"
+
+test_cases:
+  - test_case: "[rep.ask] a request for a person with no topic gets the topic question"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Can I talk to a real person please"
+        assertions:
+          - ordered_block_entered:
+              skill_id: "representative_topic"
+              block_id: "prompt_topic"
+          - bot_uttered:
+              utter_name: "utter_ask_topic"
+          - bot_did_not_utter:
+              utter_name: "utter_ask_consent_to_transfer"
+  - test_case: "[rep.earlier_topic] a request for a person after a topic offers a representative"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "Is Eliquis covered?"
+      - user: "I want to talk to someone about it"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_representative_can_help"
+          - bot_uttered:
+              utter_name: "utter_ask_consent_to_transfer"
+  - test_case: "[rep.closed] a request for a person outside the hours gives the hours"
+    metadata: "alex_closed"
+    steps:
+      - user: "/session_start"
+      - user: "I want to talk to a representative"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_member_services_closed"
+          - bot_did_not_utter:
+              utter_name: "utter_ask_topic"
+  - test_case: "[rep.visitor] a visitor who asks for a person gets the opener first"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "I want to talk to a person"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_membership"
+      - user: "set:session.initialize_conversation.membership_reply=member"
+      - user: "set:session.initialize_conversation.plan_reply=hmo"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_topic"
+  - test_case: "[topic.named] a topic named at the topic question starts that topic"
+    metadata: "sam"
+    steps:
+      - user: "/session_start"
+      - user: "Can I talk to a person"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_topic"
+      - user: "it's about my claim"
+        assertions:
+          - ordered_block_entered:
+              skill_id: "claim_status"
+              block_id: "sequence"
+  - test_case: "[topic.person_again] asking for a person again repeats the topic question"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Can I talk to a person"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_topic"
+      - user: "Just put me through to someone"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_topic"
+              text_matches: "(?i)didn.t get that"
+          - bot_did_not_utter:
+              utter_name: "utter_ask_consent_to_transfer"
+  - test_case: "[topic.unclear_once] an answer that names no topic is asked again"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Can I talk to a person"
+      - user: "about my car"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_topic"
+          - bot_did_not_utter:
+              utter_name: "utter_ask_consent_to_transfer"
+  - test_case: "[topic.unclear_twice] two answers without a topic lead to the offer of a representative"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Can I talk to a person"
+      - user: "about my car"
+      - user: "my bike"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_representative_can_help"
+          - bot_uttered:
+              utter_name: "utter_ask_consent_to_transfer"
+  - test_case: "[handoff.yes_button] a yes button transfers a member under their own name"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "I want to file a complaint about my doctor's office"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_consent_to_transfer"
+      - user: "set:session.member_services_handoff.consent_reply=yes"
+        assertions:
+          - memory_was_set:
+              - name: "member_services_handoff.consent_given"
+                value: true
+              - name: "project.handoff_to_agent"
+                value: true
+          - bot_did_not_utter:
+              utter_name: "utter_ask_caller_name"
+          - bot_uttered:
+              utter_name: "utter_connecting_to_representative"
+  - test_case: "[handoff.yes_typed] a typed yes transfers"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "I want to file a complaint about my doctor's office"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_consent_to_transfer"
+      - user: "yes please"
+        assertions:
+          - memory_was_set:
+              - name: "project.handoff_to_agent"
+                value: true
+  - test_case: "[handoff.no] a no transfers nobody"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "I want to file a complaint about my doctor's office"
+      - user: "No thanks, not now"
+        assertions:
+          - memory_was_not_set:
+              - name: "project.handoff_to_agent"
+          - bot_uttered:
+              utter_name: "utter_what_else"
+  - test_case: "[handoff.unclear_retry] an unclear consent answer is asked again"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "I want to file a complaint about my doctor's office"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_consent_to_transfer"
+      - user: "hmm"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_consent_to_transfer"
+          - memory_was_not_set:
+              - name: "project.handoff_to_agent"
+      - user: "yes"
+        assertions:
+          - memory_was_set:
+              - name: "project.handoff_to_agent"
+                value: true
+  - test_case: "[handoff.unclear_twice] two unclear consent answers count as no"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "I want to file a complaint about my doctor's office"
+      - user: "hmm"
+      - user: "maybe later"
+        assertions:
+          - memory_was_not_set:
+              - name: "project.handoff_to_agent"
+          - bot_uttered:
+              utter_name: "utter_what_else"
+  - test_case: "[handoff.yes_before_question] a yes given before the consent question does not transfer"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Yes, put me through. I want to file a complaint"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_consent_to_transfer"
+          - memory_was_not_set:
+              - name: "project.handoff_to_agent"
+  - test_case: "[handoff.stale_consent_button] a consent button without an open question is skipped"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "set:session.member_services_handoff.consent_reply=yes"
+        assertions:
+          - memory_was_not_set:
+              - name: "project.handoff_to_agent"
+  - test_case: "[handoff.reentry_after_transfer] a request for a person after the transfer starts no second transfer"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "I want to file a complaint about my doctor's office"
+      - user: "set:session.member_services_handoff.consent_reply=yes"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_connecting_to_representative"
+      - user: "can I talk to a person?"
+        assertions:
+          - bot_did_not_utter:
+              utter_name: "utter_ask_consent_to_transfer"
+  - test_case: "[handoff.visitor_name] a visitor gives a name before the transfer"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "set:session.initialize_conversation.membership_reply=member"
+      - user: "set:session.initialize_conversation.plan_reply=hmo"
+      - user: "I need an interpreter"
+      - user: "set:session.member_services_handoff.consent_reply=yes"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_caller_name"
+      - user: "Chris Morgan"
+        assertions:
+          - memory_was_set:
+              - name: "project.handoff_to_agent"
+                value: true
+          - bot_uttered:
+              utter_name: "utter_connecting_to_representative"
+  - test_case: "[handoff.visitor_refuses_name] a visitor who will not give a name is not transferred without one"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "set:session.initialize_conversation.membership_reply=member"
+      - user: "set:session.initialize_conversation.plan_reply=hmo"
+      - user: "I need an interpreter"
+      - user: "set:session.member_services_handoff.consent_reply=yes"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_caller_name"
+      - user: "I'd rather not say"
+        assertions:
+          - memory_was_not_set:
+              - name: "project.handoff_to_agent"
+  - test_case: "[handoff.closed.grievance] outside the hours, this entry point gives the hours and no consent question"
+    metadata: "alex_closed"
+    steps:
+      - user: "/session_start"
+      - user: "I want to file a complaint about my doctor's office"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_member_services_closed"
+          - bot_did_not_utter:
+              utter_name: "utter_ask_consent_to_transfer"
+  - test_case: "[handoff.closed.appeal] outside the hours, this entry point gives the hours and no consent question"
+    metadata: "sam_closed"
+    steps:
+      - user: "/session_start"
+      - user: "How do I appeal a denial?"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_appeal_rules"
+          - bot_uttered:
+              utter_name: "utter_member_services_closed"
+          - bot_did_not_utter:
+              utter_name: "utter_ask_consent_to_transfer"
+  - test_case: "[handoff.closed.benefit_decision] outside the hours, this entry point gives the hours and no consent question"
+    metadata: "alex_closed"
+    steps:
+      - user: "/session_start"
+      - user: "Will you approve my back surgery?"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_member_services_closed"
+          - bot_did_not_utter:
+              utter_name: "utter_ask_consent_to_transfer"
+  - test_case: "[handoff.closed.enroll_leave] outside the hours, this entry point gives the hours and no consent question"
+    metadata: "jordan_closed"
+    steps:
+      - user: "/session_start"
+      - user: "I want to cancel my plan"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_enrollment_leave"
+          - bot_uttered:
+              utter_name: "utter_member_services_closed"
+          - bot_did_not_utter:
+              utter_name: "utter_ask_consent_to_transfer"
+  - test_case: "[handoff.closed.enroll_moving] outside the hours, this entry point gives the hours and no consent question"
+    metadata: "jordan_closed"
+    steps:
+      - user: "/session_start"
+      - user: "I'm moving to Florida next month"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_enrollment_moving"
+          - bot_uttered:
+              utter_name: "utter_member_services_closed"
+  - test_case: "[handoff.closed.enroll_medicaid] outside the hours, this entry point gives the hours and no consent question"
+    metadata: "jordan_closed"
+    steps:
+      - user: "/session_start"
+      - user: "I just got Medicaid"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_enrollment_medicaid"
+          - bot_uttered:
+              utter_name: "utter_member_services_closed"
+  - test_case: "[handoff.closed.language] outside the hours, this entry point gives the hours and no consent question"
+    metadata: "alex_closed"
+    steps:
+      - user: "/session_start"
+      - user: "I need an interpreter"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_language_assistance"
+          - bot_uttered:
+              utter_name: "utter_member_services_closed"
+  - test_case: "[handoff.closed.id_wrong_address] outside the hours, this entry point gives the hours and no consent question"
+    metadata: "taylor_closed"
+    steps:
+      - user: "/session_start"
+      - user: "I lost my ID card"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_card_address"
+      - user: "set:session.id_card.address_reply=no"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_card_change_address"
+          - bot_uttered:
+              utter_name: "utter_member_services_closed"
+  - test_case: "[handoff.closed.prior_auth_appeal] outside the hours, this entry point gives the hours and no consent question"
+    metadata: "sam_closed"
+    steps:
+      - user: "/session_start"
+      - user: "Was my physical therapy request approved?"
+      - user: "I want help to appeal it"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_member_services_closed"
+          - bot_did_not_utter:
+              utter_name: "utter_ask_consent_to_transfer"

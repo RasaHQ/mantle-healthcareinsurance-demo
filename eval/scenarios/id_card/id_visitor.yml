@@ -1,0 +1,15 @@
+scenario:
+  name: "[id.visitor] A visitor asks for a new card"
+
+  setup:
+    initial_slots:
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are a member who is not signed in. Say you are a PPO member and you lost your ID card.
+
+  goals:
+    criteria:
+      - The agent tells the person to sign in
+      - The agent does not order a card

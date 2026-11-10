@@ -1,0 +1,13 @@
+schema:
+  private:
+    # Open only while the block runs a block-only tool.
+    tool_gate_open:
+      type: bool
+
+    # The block ran in this skill run: extra_benefit_facts is offered only then.
+    facts_ready:
+      type: bool
+
+    # The authored texts that the block noted for this member's plan (lib/authored_facts.py).
+    authored_texts:
+      type: list

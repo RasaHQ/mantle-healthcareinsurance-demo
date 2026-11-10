@@ -1,0 +1,27 @@
+channels:
+  # The standard REST channel. A trusted client (a web gateway after the member signs in) sends
+  # `member_id` and `surface` in the metadata of the first message. See memory.yml, `seed: true`.
+  rest: { enabled: true }
+  inspector: { enabled: true }   # required for `rasa inspect` and for eval/export_model_calls.py
+
+# The model that runs the orchestrator. To evaluate another model, change only this group and
+# restart the server. Examples are in README.md, "Swap in your own model".
+model_groups:
+  - id: assistant_llm
+    models:
+      - provider: openai
+        model: gpt-6-luna
+        api_key: ${OPENAI_API_KEY}
+        temperature: 0
+        reasoning_effort: none
+        timeout: 20                   # seconds per model call
+
+# A self-hosted, OpenAI-compatible model (vLLM, TGI, Ollama). Replace the group above with:
+#
+#  - id: assistant_llm
+#    models:
+#      - provider: self-hosted
+#        model: my-finetuned-model
+#        api_base: http://localhost:8000/v1
+#        temperature: 0
+#        timeout: 20

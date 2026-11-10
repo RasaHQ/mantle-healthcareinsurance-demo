@@ -1,0 +1,17 @@
+scenario:
+  name: "[x.multi_intent_claim_auth] A claim and an authorization in one message"
+
+  setup:
+    initial_slots:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Sam. Your first message is 'Why was my physical therapy claim denied, and what happened
+    to my request for more visits?'.
+
+  goals:
+    criteria:
+      - The agent explains the denied claim
+      - The agent explains the denied authorization

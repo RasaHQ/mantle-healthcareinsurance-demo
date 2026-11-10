@@ -1,0 +1,14 @@
+responses:
+  utter_ask_wants_callback:
+    - text: "Do you want a licensed agent to call you about your plan options? The call is free, and you don't have to make a change."
+      buttons:
+        - title: "Yes, call me"
+          payload: "set:session.agent_callback.wants_callback=yes"
+        - title: "No, thanks"
+          payload: "set:session.agent_callback.wants_callback=no"
+
+  utter_ask_phone_number:
+    - text: "What phone number can the agent call you on?"
+
+  utter_callback_booked:
+    - text: "Thanks. A licensed agent will call you on {session.agent_callback.phone_number} within 1 business day. Your plan stays the same unless you decide to change it."

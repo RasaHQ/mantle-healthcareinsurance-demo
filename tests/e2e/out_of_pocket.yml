@@ -1,0 +1,92 @@
+# One test case per path. The path id is in brackets; `python -m eval.coverage` lists all paths.
+
+metadata:
+  - alex:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - sam:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - morgan:
+      member_id: "m1005"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - visitor:
+      client_surface: "web"
+      hours_profile: "always_open"
+
+test_cases:
+  - test_case: "[oop.moop_progress] progress toward the out-of-pocket maximum"
+    metadata: "sam"
+    steps:
+      - user: "/session_start"
+      - user: "How close am I to my out-of-pocket max?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$1,000"
+  - test_case: "[oop.ppo_combined_max] the combined maximum on the PPO"
+    metadata: "sam"
+    steps:
+      - user: "/session_start"
+      - user: "And how much is left on the combined in and out of network maximum?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$4,600"
+  - test_case: "[oop.drug_cap_reached] the drug cap is reached"
+    metadata: "sam"
+    steps:
+      - user: "/session_start"
+      - user: "Have I hit the drug cap?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$2,100"
+          - bot_uttered:
+              text_matches: "\\$0"
+  - test_case: "[oop.moop_reached] the maximum is reached"
+    metadata: "morgan"
+    steps:
+      - user: "/session_start"
+      - user: "How close am I to my out-of-pocket max?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)reached|\\$0 left|met"
+  - test_case: "[oop.hmo_no_premium] the HMO has no premium"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "What's my monthly premium?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$0"
+  - test_case: "[oop.premium_payment_method] how the premium is paid"
+    metadata: "sam"
+    steps:
+      - user: "/session_start"
+      - user: "How is my premium paid?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)social security"
+  - test_case: "[oop.visitor_limits] a shopper gets the plan limits, not spending"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "set:session.initialize_conversation.membership_reply=shopper"
+      - user: "set:session.initialize_conversation.plan_reply=hmo"
+      - user: "What's the out-of-pocket maximum?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$6,700"
+  - test_case: "[oop.shopper_not_sure] a shopper who is not sure gets both limits"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "set:session.initialize_conversation.membership_reply=shopper"
+      - user: "set:session.initialize_conversation.plan_reply=not_sure"
+      - user: "What's the out-of-pocket maximum?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$6,700"
+          - bot_uttered:
+              text_matches: "\\$7,900"

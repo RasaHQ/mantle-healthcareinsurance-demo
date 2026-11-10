@@ -1,0 +1,15 @@
+scenario:
+  name: "[oop.moop_reached] The maximum is reached"
+
+  setup:
+    initial_slots:
+      member_id: "m1005"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Morgan. Ask how much you still have to pay before your plan pays everything.
+
+  goals:
+    criteria:
+      - The agent says that the member reached the $6,700 out-of-pocket maximum

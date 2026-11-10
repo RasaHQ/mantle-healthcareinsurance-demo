@@ -1,0 +1,17 @@
+scenario:
+  name: "[extras.fitness] Fitness and meals"
+
+  setup:
+    initial_slots:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Jordan. Ask whether you get a gym membership. Then say you are going into hospital next
+    month and ask whether you get meals afterwards.
+
+  goals:
+    criteria:
+      - The agent says that a gym membership is included at $0
+      - The agent says that 14 home-delivered meals are covered after an inpatient stay

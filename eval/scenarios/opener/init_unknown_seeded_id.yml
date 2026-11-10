@@ -1,0 +1,17 @@
+scenario:
+  name: "[init.unknown_seeded_id] An unknown member id is treated as a visitor"
+
+  setup:
+    initial_slots:
+      member_id: "m9999"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You think you are signed in. Ask how much is left on your OTC card. Answer the assistant's
+    questions: you are a member of the HMO.
+
+  goals:
+    criteria:
+      - The agent does not give an OTC balance for this person
+      - The agent tells the person to sign in to see their own information, or gives only the plan's allowance

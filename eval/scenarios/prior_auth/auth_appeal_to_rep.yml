@@ -1,0 +1,21 @@
+scenario:
+  name: "[auth.appeal_to_rep] A denied authorization, then help with an appeal"
+
+  setup:
+    initial_slots:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Sam. Ask whether your request for more physical therapy was approved. Then say you want
+    to appeal and accept the offer of a representative.
+
+  goals:
+    criteria:
+      - The agent gives the reason of the denial
+      - The agent says that the member can appeal within 65 days
+      - The agent asks for consent before a transfer
+    assertions:
+      - bot_uttered:
+          utter_name: "utter_ask_consent_to_transfer"

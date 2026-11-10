@@ -1,0 +1,20 @@
+scenario:
+  name: "[res.no_open] Resolution no offers a representative"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Ask whether a colonoscopy is covered. Then say thank you. When the assistant asks
+    whether it answered your question, say no, it did not. Accept the offer of a representative.
+
+  goals:
+    criteria:
+      - The agent asks whether it answered the question
+      - The agent offers a representative after the no
+    assertions:
+      - bot_uttered:
+          utter_name: "utter_ask_consent_to_transfer"

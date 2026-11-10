@@ -1,0 +1,17 @@
+scenario:
+  name: "[callback.invalid_phone] An invalid phone number for the callback"
+
+  setup:
+    initial_slots:
+      member_id: "m1004"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Taylor. Ask whether you can switch to the HMO. Accept the callback. First give the phone
+    number 'abc', then '12', then 555 014 2777.
+
+  goals:
+    criteria:
+      - The agent asks again after an invalid phone number
+      - The agent books the call only with the valid number

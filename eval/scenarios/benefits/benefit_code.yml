@@ -1,0 +1,17 @@
+scenario:
+  name: "[benefit.code] A procedure code from a provider's estimate"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Say your doctor's office gave you procedure code 70551 and ask what you will pay
+    and whether you need anything first.
+
+  goals:
+    criteria:
+      - The agent says that code 70551 is an MRI of the brain with a $250 copay
+      - The agent says that prior authorization is needed

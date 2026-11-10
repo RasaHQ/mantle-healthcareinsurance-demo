@@ -1,0 +1,17 @@
+scenario:
+  name: "[pcp.unclear_retry] Unclear answers at the confirmation questions"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Ask to make Dr. Grace Liu your PCP. At the first question answer 'hmm, what does
+    that mean for my appointments?'. Then answer yes. At the final confirmation answer 'I guess'.
+    Then answer yes clearly.
+
+  goals:
+    criteria:
+      - The agent does not change the PCP until the member clearly says yes to both questions

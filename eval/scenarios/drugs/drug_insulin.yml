@@ -1,0 +1,15 @@
+scenario:
+  name: "[drug.insulin] Insulin costs no more than $35 a month"
+
+  setup:
+    initial_slots:
+      member_id: "m1004"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Taylor, a member of the PPO. Ask how much your Lantus insulin will cost you each month.
+
+  goals:
+    criteria:
+      - The agent says that covered insulin costs no more than $35 for a one-month supply

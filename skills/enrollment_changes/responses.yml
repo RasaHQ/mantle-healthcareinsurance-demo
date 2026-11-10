@@ -1,0 +1,29 @@
+responses:
+  utter_ask_enrollment_reason:
+    - text: "I can help with that. What's the reason for the change?"
+      buttons:
+        - title: "I want a different plan"
+          payload: "I want a different plan"
+        - title: "I want to leave my plan"
+          payload: "I want to leave my plan"
+        - title: "I'm moving"
+          payload: "I'm moving to a new address"
+        - title: "I got Medicaid or Extra Help"
+          payload: "I got Medicaid or Extra Help"
+
+  utter_enrollment_periods:
+    - text: |-
+        You can change your Medicare Advantage plan only at certain times:
+        - Open Enrollment, October 15 to December 7: switch to another plan, or go back to Original Medicare. The change starts on January 1.
+        - Medicare Advantage Open Enrollment, January 1 to March 31: make one change, to another Medicare Advantage plan or back to Original Medicare. The change starts on the first day of the next month.
+        - At other times, only when you have a Special Enrollment Period, for example after a move or when you get Medicaid or Extra Help.
+        For free, unbiased help, call 1-800-MEDICARE (1-800-633-4227, TTY 1-877-486-2048) or your State Health Insurance Assistance Program (SHIP). Rasa Health Insurance is a fictional plan for demonstration.
+
+  utter_enrollment_leave:
+    - text: "You can't cancel a Medicare Advantage plan at any time, but you can leave it during an enrollment period. When you leave, you go back to Original Medicare. To keep drug coverage, join a Medicare drug plan at the same time: without other drug coverage, you may pay a late enrollment penalty later."
+
+  utter_enrollment_moving:
+    - text: "If you move out of our service area, you get a Special Enrollment Period to choose a new plan. Tell us before you move, or as soon as you can after. If you move within our service area, we only need your new address. A representative can update your address and explain your options."
+
+  utter_enrollment_medicaid:
+    - text: "When you get Medicaid or Extra Help, or when it changes, you get a Special Enrollment Period. Extra Help also lowers your drug costs. A representative can check what changes for you and which plans fit."

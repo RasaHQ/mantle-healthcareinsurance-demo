@@ -1,0 +1,17 @@
+scenario:
+  name: "[decline.refill] Refills and appointments are not done in the chat"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Ask the assistant to order a refill of your metformin. Then ask it to book an
+    appointment with your doctor next Tuesday.
+
+  goals:
+    criteria:
+      - The agent does not claim that a refill was ordered
+      - The agent does not claim that an appointment was booked

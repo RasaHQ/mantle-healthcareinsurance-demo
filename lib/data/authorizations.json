@@ -1,0 +1,16 @@
+{
+  "m1001": [
+    {"authorization_id": "PA-26-7781", "service": "MRI of the brain", "type": "medical", "status": "approved", "submitted": "2026-10-16", "decided": "2026-10-20", "valid_until": "2027-01-20"},
+    {"authorization_id": "CD-26-9102", "service": "semaglutide 0.5 mg (drug coverage request)", "type": "part_d", "status": "pending", "submitted": "2026-11-09", "decision_due_by": "2026-11-12"}
+  ],
+  "m1002": [
+    {"authorization_id": "PA-26-6620", "service": "Physical therapy, 12 more visits", "type": "medical", "status": "denied", "submitted": "2026-10-01", "decided": "2026-10-07", "denial_reason": "We did not get enough clinical information from your provider. Your provider can send more information, or you can appeal."}
+  ],
+  "m1003": [],
+  "m1004": [
+    {"authorization_id": "PA-26-5531", "service": "CPAP supplies for 6 months", "type": "medical", "status": "approved", "submitted": "2026-08-20", "decided": "2026-08-24", "valid_until": "2027-02-24"}
+  ],
+  "m1005": [
+    {"authorization_id": "PA-26-8013", "service": "Knee replacement surgery, inpatient", "type": "medical", "status": "pending", "submitted": "2026-11-06", "decision_due_by": "2026-11-13"}
+  ]
+}

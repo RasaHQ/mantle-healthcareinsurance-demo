@@ -1,0 +1,20 @@
+scenario:
+  name: "[id.wrong_address] A wrong address goes to a representative"
+
+  setup:
+    initial_slots:
+      member_id: "m1004"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Taylor. Say you need a new ID card. When the assistant reads your address, say you moved
+    and give the new address 5 Pine Street, Springfield. Decline the offer of a representative.
+
+  goals:
+    criteria:
+      - The agent does not order a card to the new address
+      - The agent says that a representative updates the address after verifying identity
+    assertions:
+      - memory_was_not_set:
+          - name: "id_card.order_reference"

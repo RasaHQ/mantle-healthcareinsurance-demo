@@ -1,0 +1,17 @@
+scenario:
+  name: "[extras.rides_ppo] Rides to appointments on both plans"
+
+  setup:
+    initial_slots:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Sam, a member of the PPO. Ask whether your plan gives rides to doctor appointments. Then
+    ask whether the HMO has them.
+
+  goals:
+    criteria:
+      - The agent says that the PPO does not cover rides
+      - The agent does not promise rides on the member's plan

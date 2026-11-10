@@ -1,0 +1,6 @@
+schema:
+  public:
+    # Set by the block. builtin_continue_interrupted reads it and drops the task that this skill
+    # interrupted, without the resume question. Only the block writes it.
+    closed_by_member:
+      type: bool

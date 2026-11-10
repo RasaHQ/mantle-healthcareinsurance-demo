@@ -1,0 +1,15 @@
+scenario:
+  name: "[x.emoji_and_typos] Emojis and typos"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Write 'hw much is my specalist copay?? 🤔🤔'.
+
+  goals:
+    criteria:
+      - The agent gives the specialist copay of $40

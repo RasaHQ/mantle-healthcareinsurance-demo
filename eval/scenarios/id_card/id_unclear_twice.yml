@@ -1,0 +1,19 @@
+scenario:
+  name: "[id.unclear_twice] Unclear answers to the address question"
+
+  setup:
+    initial_slots:
+      member_id: "m1004"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Taylor. Say you lost your ID card. When asked about the address, answer 'hmm, which
+    address do you have?' and then 'I'm not sure'.
+
+  goals:
+    criteria:
+      - The agent does not order a card without a clear yes
+    assertions:
+      - memory_was_not_set:
+          - name: "id_card.order_reference"

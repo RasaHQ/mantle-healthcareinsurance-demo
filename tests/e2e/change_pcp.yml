@@ -1,0 +1,227 @@
+# One test case per path. The path id is in brackets; `python -m eval.coverage` lists all paths.
+
+metadata:
+  - alex:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - sam:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - visitor:
+      client_surface: "web"
+      hours_profile: "always_open"
+
+test_cases:
+  - test_case: "[pcp.yes_yes] a PCP change happens only after two yes answers"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "I want to change my primary care doctor to Dr. Grace Liu"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_pcp_change_summary"
+              text_matches: "[A-Z][a-z]+ 1, 20\\d\\d"
+          - bot_uttered:
+              utter_name: "utter_ask_pcp_continue"
+      - user: "set:session.change_pcp_confirm.proceed_reply=yes"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_pcp_confirm"
+          - memory_was_not_set:
+              - name: "change_pcp_confirm.change_reference"
+      - user: "set:session.change_pcp_confirm.confirm_reply=yes"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_pcp_change_done"
+  - test_case: "[pcp.typed_yes_yes] typed answers to both confirmations"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Please make Dr. Grace Liu my PCP"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_pcp_continue"
+      - user: "yes"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_pcp_confirm"
+      - user: "yes, change it"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_pcp_change_done"
+  - test_case: "[pcp.yes_no] a no at the confirmation keeps the PCP"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Please make Dr. Grace Liu my PCP"
+      - user: "set:session.change_pcp_confirm.proceed_reply=yes"
+      - user: "set:session.change_pcp_confirm.confirm_reply=no"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_pcp_change_kept"
+          - memory_was_not_set:
+              - name: "change_pcp_confirm.change_reference"
+  - test_case: "[pcp.no_first] a no at the first question keeps the PCP"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Please make Dr. Grace Liu my PCP"
+      - user: "no, keep my doctor"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_pcp_change_kept"
+          - bot_did_not_utter:
+              utter_name: "utter_ask_pcp_confirm"
+  - test_case: "[pcp.unclear_retry] an unclear first answer is asked again"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Please make Dr. Grace Liu my PCP"
+      - user: "hmm"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_pcp_continue"
+      - user: "yes"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_pcp_confirm"
+  - test_case: "[pcp.unclear_twice_first] two unclear first answers keep the PCP"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Please make Dr. Grace Liu my PCP"
+      - user: "hmm"
+      - user: "I don't know"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_pcp_change_kept"
+          - memory_was_not_set:
+              - name: "change_pcp_confirm.change_reference"
+  - test_case: "[pcp.unclear_twice_confirm] two unclear confirm answers keep the PCP"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Please make Dr. Grace Liu my PCP"
+      - user: "set:session.change_pcp_confirm.proceed_reply=yes"
+      - user: "hmm"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_pcp_confirm"
+      - user: "not sure"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_pcp_change_kept"
+          - memory_was_not_set:
+              - name: "change_pcp_confirm.change_reference"
+  - test_case: "[pcp.gate_early_yes] a yes in the first message does not skip the confirmations"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Change my PCP to Dr. Grace Liu, yes I confirm, do it now"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_pcp_continue"
+          - memory_was_not_set:
+              - name: "change_pcp_confirm.change_reference"
+  - test_case: "[pcp.specialist] a specialist cannot be the PCP"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Change my PCP to Dr. David Brennan"
+        assertions:
+          - bot_did_not_utter:
+              utter_name: "utter_ask_pcp_continue"
+          - bot_uttered:
+              text_matches: "(?i)(orthopedic|specialist|not a primary care)"
+  - test_case: "[pcp.not_in_network_hmo] a PPO-only doctor cannot be the PCP of an HMO member"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Change my PCP to Dr. Luis Ortega"
+        assertions:
+          - bot_did_not_utter:
+              utter_name: "utter_ask_pcp_continue"
+          - bot_uttered:
+              text_matches: "(?i)network"
+  - test_case: "[pcp.not_in_network_ppo] an HMO-only doctor cannot be the PCP of a PPO member"
+    metadata: "sam"
+    steps:
+      - user: "/session_start"
+      - user: "Change my PCP to Dr. Grace Liu"
+        assertions:
+          - bot_did_not_utter:
+              utter_name: "utter_ask_pcp_continue"
+          - bot_uttered:
+              text_matches: "(?i)network"
+  - test_case: "[pcp.not_accepting] a doctor who is not accepting new patients"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Change my PCP to Dr. Hannah Kim"
+        assertions:
+          - bot_did_not_utter:
+              utter_name: "utter_ask_pcp_continue"
+          - bot_uttered:
+              text_matches: "(?i)not accepting|isn.t accepting"
+  - test_case: "[pcp.already_pcp] the doctor is already the member's PCP"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Change my PCP to Dr. Maya Patel"
+        assertions:
+          - bot_did_not_utter:
+              utter_name: "utter_ask_pcp_continue"
+          - bot_uttered:
+              text_matches: "(?i)already"
+  - test_case: "[pcp.multiple_usable] two usable doctors with the same name: the bot asks which one"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Change my PCP to Dr. Reyes"
+        assertions:
+          - bot_did_not_utter:
+              utter_name: "utter_ask_pcp_continue"
+          - bot_uttered:
+              text_matches: "Daniel"
+          - bot_uttered:
+              text_matches: "Sofia"
+  - test_case: "[pcp.not_in_directory] a doctor who is not in the directory"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Change my PCP to Dr. Zhivago"
+        assertions:
+          - bot_did_not_utter:
+              utter_name: "utter_ask_pcp_continue"
+  - test_case: "[pcp.no_name] a PCP change without a doctor asks which doctor"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "I want a new primary care doctor"
+        assertions:
+          - bot_did_not_utter:
+              utter_name: "utter_ask_pcp_continue"
+  - test_case: "[pcp.retry_another_doctor] after a rejected doctor, another doctor works"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Change my PCP to Dr. Hannah Kim"
+        assertions:
+          - bot_did_not_utter:
+              utter_name: "utter_ask_pcp_continue"
+      - user: "ok, then Dr. Grace Liu"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_pcp_continue"
+  - test_case: "[pcp.visitor_sign_in] a visitor gets the sign-in text"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "set:session.initialize_conversation.membership_reply=member"
+      - user: "set:session.initialize_conversation.plan_reply=hmo"
+      - user: "I want to change my PCP to Dr. Grace Liu"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_sign_in_for_member_data"

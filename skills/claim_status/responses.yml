@@ -1,0 +1,8 @@
+responses:
+  # The next step of each claim status. my_claims gives these to the model as facts.
+  utter_claim_next_step_paid:
+    - text: "We mailed you an Explanation of Benefits (EOB), and you can see it online or in the app under Claims. An EOB is not a bill. Your provider bills you for the amount you owe, if any."
+  utter_claim_next_step_processing:
+    - text: "Most claims are processed within 30 days. You don't need to do anything. You will get an Explanation of Benefits (EOB) when it is done."
+  utter_claim_next_step_denied:
+    - text: "The reason is on your Explanation of Benefits (EOB). If you disagree, you can appeal within 65 days of the date on the notice. Your provider can also send us more information."

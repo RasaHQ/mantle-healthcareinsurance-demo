@@ -1,0 +1,26 @@
+scenario:
+  name: "[handoff.yes_typed] A transfer happens only after the member's consent"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Say you want to file a complaint about a doctor's office. When the agent asks
+    whether you want to talk to a representative now, say yes clearly.
+
+  goals:
+    criteria:
+      - The agent asks the member whether they want to be connected before the transfer
+    assertions:
+      - sequencing:
+          - ordered_block_entered:
+              skill_id: "member_services_handoff"
+              block_id: "sequence"
+          - memory_was_set: "member_services_handoff.consent_given"
+      - bot_uttered:
+          utter_name: "utter_connecting_to_representative"
+    expected_tools:
+      - tool_called: "hand_to_representative"

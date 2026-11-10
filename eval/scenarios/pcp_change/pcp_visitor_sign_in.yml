@@ -1,0 +1,16 @@
+scenario:
+  name: "[pcp.visitor_sign_in] A visitor asks to change the PCP"
+
+  setup:
+    initial_slots:
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are a member who is not signed in. Say you are an HMO member, and ask to change your PCP to
+    Dr. Grace Liu.
+
+  goals:
+    criteria:
+      - The agent tells the person to sign in
+      - The agent does not start a PCP change

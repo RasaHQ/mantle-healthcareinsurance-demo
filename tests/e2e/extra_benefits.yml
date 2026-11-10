@@ -1,0 +1,147 @@
+# One test case per path. The path id is in brackets; `python -m eval.coverage` lists all paths.
+
+metadata:
+  - alex:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - sam:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - taylor:
+      member_id: "m1004"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - morgan:
+      member_id: "m1005"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - visitor:
+      client_surface: "web"
+      hours_profile: "always_open"
+
+test_cases:
+  - test_case: "[extras.otc_ppo] the OTC balance of a PPO member"
+    metadata: "sam"
+    steps:
+      - user: "/session_start"
+      - user: "How much is left on my OTC card?"
+        assertions:
+          - ordered_block_entered:
+              skill_id: "supplemental_benefits"
+              block_id: "sequence"
+          - bot_uttered:
+              text_matches: "\\$20"
+  - test_case: "[extras.otc_hmo] the OTC balance of an HMO member"
+    metadata: "morgan"
+    steps:
+      - user: "/session_start"
+      - user: "How much is left on my OTC card?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$35"
+  - test_case: "[extras.otc_zero] an OTC balance of $0"
+    metadata: "taylor"
+    steps:
+      - user: "/session_start"
+      - user: "How much is left on my OTC card?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$0"
+  - test_case: "[extras.otc_visitor] a visitor gets the allowance, not a balance"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "set:session.initialize_conversation.membership_reply=member"
+      - user: "set:session.initialize_conversation.plan_reply=hmo"
+      - user: "How much is left on my OTC card?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$75"
+          - bot_did_not_utter:
+              text_matches: "\\$75\\.00 left"
+  - test_case: "[extras.dental_hmo] dental on the HMO"
+    metadata: "morgan"
+    steps:
+      - user: "/session_start"
+      - user: "Does my plan cover dental?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$2,000"
+  - test_case: "[extras.dental_ppo] dental on the PPO"
+    metadata: "sam"
+    steps:
+      - user: "/session_start"
+      - user: "Does my plan cover dental?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$1,500"
+  - test_case: "[extras.dental_not_sure] dental for a shopper who is not sure names both plans"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "set:session.initialize_conversation.membership_reply=shopper"
+      - user: "set:session.initialize_conversation.plan_reply=not_sure"
+      - user: "Do your plans cover dental?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$2,000"
+          - bot_uttered:
+              text_matches: "\\$1,500"
+  - test_case: "[extras.vision_hmo] vision on the HMO"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Does my plan pay for glasses?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$200"
+  - test_case: "[extras.vision_ppo] vision on the PPO"
+    metadata: "sam"
+    steps:
+      - user: "/session_start"
+      - user: "Does my plan pay for glasses?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$150"
+  - test_case: "[extras.hearing] hearing aids"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Does my plan cover hearing aids?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$699"
+  - test_case: "[extras.fitness] the fitness benefit"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Do I get a gym membership?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)gym"
+  - test_case: "[extras.rides_hmo] rides on the HMO"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Can I get a ride to my doctor?"
+        assertions:
+          - bot_uttered:
+              text_matches: "24"
+  - test_case: "[extras.rides_ppo] no rides on the PPO"
+    metadata: "sam"
+    steps:
+      - user: "/session_start"
+      - user: "Can I get a ride to my doctor?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)(not cover|doesn.t cover|does not cover|no rides)"
+  - test_case: "[extras.meals] meals after a hospital stay"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Do I get meals after a hospital stay?"
+        assertions:
+          - bot_uttered:
+              text_matches: "14"

@@ -1,0 +1,172 @@
+# One test case per path. The path id is in brackets; `python -m eval.coverage` lists all paths.
+
+metadata:
+  - alex:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - sam:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - visitor:
+      client_surface: "web"
+      hours_profile: "always_open"
+
+test_cases:
+  - test_case: "[benefit.hmo_specialist_referral] a specialist on the HMO needs a referral"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Do I need a referral to see a cardiologist?"
+        assertions:
+          - ordered_block_entered:
+              skill_id: "benefit_check"
+              block_id: "lookup"
+          - bot_uttered:
+              text_matches: "(?i)referral"
+          - bot_uttered:
+              text_matches: "\\$40"
+  - test_case: "[benefit.code] an MRI by procedure code needs prior authorization"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "How much is code 70551?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$250"
+          - bot_uttered:
+              text_matches: "(?i)prior authori[sz]ation"
+  - test_case: "[benefit.multi_code] two procedure codes in one message"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "What do 99213 and 70551 cost me?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$0"
+          - bot_uttered:
+              text_matches: "\\$250"
+  - test_case: "[benefit.unknown_code] an unknown procedure code is not guessed"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Is procedure code 12345 covered?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)(don.t|do not|doesn.t|does not|can.t|cannot|not) (recogni[sz]e|find|match|have)"
+  - test_case: "[benefit.unknown_category] a service outside the list is not guessed"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Does my plan cover skydiving lessons?"
+        assertions:
+          - bot_did_not_utter:
+              text_matches: "\\$\\d"
+  - test_case: "[benefit.ppo_in_network] a specialist on the PPO in network"
+    metadata: "sam"
+    steps:
+      - user: "/session_start"
+      - user: "What's my copay for a specialist?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$45"
+          - bot_did_not_utter:
+              text_matches: "(?i)need a referral"
+  - test_case: "[benefit.ppo_oon] an out-of-network specialist on the PPO"
+    metadata: "sam"
+    steps:
+      - user: "/session_start"
+      - user: "What do I pay for an out-of-network specialist?"
+        assertions:
+          - bot_uttered:
+              text_matches: "40 ?%"
+  - test_case: "[benefit.shopper_by_plan] a shopper who is not sure gets both plans"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "set:session.initialize_conversation.membership_reply=shopper"
+      - user: "set:session.initialize_conversation.plan_reply=not_sure"
+      - user: "What does an MRI cost?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$250"
+          - bot_uttered:
+              text_matches: "\\$275"
+  - test_case: "[benefit.shopper_single_plan] a shopper who asks about the HMO gets the HMO only"
+    metadata: "visitor"
+    steps:
+      - user: "/session_start"
+      - user: "set:session.initialize_conversation.membership_reply=shopper"
+      - user: "set:session.initialize_conversation.plan_reply=hmo"
+      - user: "What does an MRI cost?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$250"
+          - bot_did_not_utter:
+              text_matches: "\\$275"
+  - test_case: "[benefit.ask_once] a request without a service gets the ask block"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Can you check a benefit for me?"
+        assertions:
+          - ordered_block_entered:
+              skill_id: "benefit_check"
+              block_id: "ask_service"
+          - bot_uttered:
+              utter_name: "utter_ask_service"
+  - test_case: "[benefit.ask_twice] a second answer without a service is asked again"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Can you check a benefit for me?"
+      - user: "something for my health"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_service"
+              text_matches: "(?i)still"
+  - test_case: "[benefit.ask_cap] a third answer without a service offers a representative"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Can you check a benefit for me?"
+      - user: "something for my health"
+      - user: "you know, the thing"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_consent_to_transfer"
+  - test_case: "[benefit.to_rep] a request for a decision about the member's own case offers a person"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Will you approve my back surgery?"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_benefit_offer_person"
+          - bot_uttered:
+              utter_name: "utter_ask_consent_to_transfer"
+  - test_case: "[benefit.non_covered] cosmetic surgery is not covered"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Is cosmetic surgery covered?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)not covered"
+  - test_case: "[benefit.acupuncture_rule] acupuncture is covered only for chronic low back pain"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "Does my plan cover acupuncture?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)low back pain"
+  - test_case: "[benefit.emergency] the emergency room copay"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "How much is an emergency room visit?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$125"

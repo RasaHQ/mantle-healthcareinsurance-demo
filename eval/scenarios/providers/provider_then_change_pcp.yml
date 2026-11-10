@@ -1,0 +1,17 @@
+scenario:
+  name: "[provider.then_change_pcp] From a provider search to a PCP change"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex, on the HMO. Ask for a family doctor near 62702 who accepts new patients. Then say
+    you want that doctor as your new PCP. Answer yes to both confirmation questions.
+
+  goals:
+    criteria:
+      - The agent names Dr. Daniel Reyes or another in-network family doctor
+      - The agent asks the member to continue and then to confirm before it changes the PCP

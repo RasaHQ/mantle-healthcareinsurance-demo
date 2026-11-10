@@ -1,0 +1,15 @@
+scenario:
+  name: "[id.app_variant] A lost card in the app"
+
+  setup:
+    initial_slots:
+      member_id: "m1004"
+      client_surface: "app"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Taylor, using the mobile app. Say you lost your card and need to see a doctor today.
+
+  goals:
+    criteria:
+      - The agent tells the member to use the digital ID card in the app

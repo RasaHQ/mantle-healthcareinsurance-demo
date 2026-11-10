@@ -1,0 +1,18 @@
+scenario:
+  name: "[benefit.hmo_specialist_referral] A specialist on the HMO needs a referral"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex, a member of the HMO. Ask whether you can see a dermatologist and what it costs.
+
+  goals:
+    criteria:
+      - The agent says that the member needs a referral from their PCP
+      - The agent says that a specialist visit costs a $40 copay
+    expected_tools:
+      - tool_called: "check_benefit"

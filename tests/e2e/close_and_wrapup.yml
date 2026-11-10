@@ -1,0 +1,387 @@
+# One test case per path. The path id is in brackets; `python -m eval.coverage` lists all paths.
+
+metadata:
+  - alex:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - jordan:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+  - jordan_closed:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "never_open"
+  - taylor:
+      member_id: "m1004"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+test_cases:
+  - test_case: "[wrapup.no] after an answer, a no to the wrap-up question leads to the rating"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "Does my plan cover hearing aids?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$699"
+      - user: "thanks, that's all"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_wants_to_continue"
+      - user: "no"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_rating"
+      - user: "set:session.builtin_customer_satisfaction.csat_score=satisfied"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_thanks_for_rating"
+          - memory_was_set:
+              - name: "project.chat_ended"
+                value: true
+  - test_case: "[wrapup.yes_extra_help] a plain yes to the wrap-up question gets a question back, not the rating"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "Does my plan cover hearing aids?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$699"
+      - user: "thanks, that's all"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_wants_to_continue"
+      - user: "yes"
+        assertions:
+          - bot_did_not_utter:
+              utter_name: "utter_ask_rating"
+  - test_case: "[wrapup.yes_with_task] a yes with a new task starts that task"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "Does my plan cover hearing aids?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$699"
+      - user: "thanks, that's all"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_wants_to_continue"
+      - user: "yes, is Eliquis covered?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)tier 3"
+          - bot_did_not_utter:
+              utter_name: "utter_ask_rating"
+  - test_case: "[wrapup.unclear] an unclear answer to the wrap-up question does not end the chat"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "Does my plan cover hearing aids?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$699"
+      - user: "thanks, that's all"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_wants_to_continue"
+      - user: "hmm"
+        assertions:
+          - memory_was_not_set:
+              - name: "project.chat_ended"
+  - test_case: "[wrapup.unhandled_new_message] a new question after a block that ended the turn is answered"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "I forgot my password"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_forgot_password"
+      - user: "Is Eliquis covered?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)tier 3"
+          - bot_did_not_utter:
+              utter_name: "utter_ask_wants_to_continue"
+  - test_case: "[wrapup.silent_after_handoff] no wrap-up question after a transfer"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "I want to file a complaint about my doctor's office"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_consent_to_transfer"
+      - user: "set:session.member_services_handoff.consent_reply=yes"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_connecting_to_representative"
+          - bot_did_not_utter:
+              utter_name: "utter_ask_wants_to_continue"
+  - test_case: "[csat.unsatisfied] an unsatisfied rating ends the chat"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "Does my plan cover hearing aids?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$699"
+      - user: "thanks, that's all"
+      - user: "no"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_rating"
+      - user: "set:session.builtin_customer_satisfaction.csat_score=unsatisfied"
+        assertions:
+          - memory_was_set:
+              - name: "builtin_customer_satisfaction.csat_score"
+                value: "unsatisfied"
+              - name: "project.chat_ended"
+                value: true
+  - test_case: "[csat.typed] a typed rating is recorded"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "Does my plan cover hearing aids?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$699"
+      - user: "thanks, that's all"
+      - user: "no"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_rating"
+      - user: "It was really helpful"
+        assertions:
+          - memory_was_set:
+              - name: "builtin_customer_satisfaction.csat_score"
+                value: "satisfied"
+  - test_case: "[csat.rating_before_question] a rating sent before the rating question is not recorded"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "set:session.builtin_customer_satisfaction.csat_score=satisfied"
+        assertions:
+          - memory_was_not_set:
+              - name: "builtin_customer_satisfaction.csat_score"
+              - name: "project.chat_ended"
+  - test_case: "[csat.message_after_chat_ended] a message after the chat ended does not restart the close"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "Does my plan cover hearing aids?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$699"
+      - user: "thanks, that's all"
+      - user: "no"
+      - user: "set:session.builtin_customer_satisfaction.csat_score=satisfied"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_thanks_for_rating"
+      - user: "hello?"
+        assertions:
+          - bot_did_not_utter:
+              utter_name: "utter_ask_rating"
+  - test_case: "[res.yes] thanks after an answer: resolution yes, then the rating"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "Does my plan cover hearing aids?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$699"
+      - user: "thank you"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_question_answered"
+      - user: "set:session.resolution_question.resolved_reply=yes"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_youre_welcome"
+          - bot_uttered:
+              utter_name: "utter_ask_rating"
+  - test_case: "[res.no_open] resolution no offers a representative"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "Does my plan cover hearing aids?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$699"
+      - user: "thank you"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_question_answered"
+      - user: "no, it didn't"
+        assertions:
+          - memory_was_set:
+              - name: "resolution_question.resolution_result"
+                value: "not_answered"
+          - bot_uttered:
+              utter_name: "utter_ask_consent_to_transfer"
+  - test_case: "[res.no_closed] resolution no outside the hours gives the hours"
+    metadata: "jordan_closed"
+    steps:
+      - user: "/session_start"
+      - user: "Does my plan cover hearing aids?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$699"
+      - user: "thank you"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_question_answered"
+      - user: "set:session.resolution_question.resolved_reply=no"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_member_services_closed"
+          - bot_did_not_utter:
+              utter_name: "utter_ask_consent_to_transfer"
+  - test_case: "[res.unclear_retry] an unclear resolution answer is asked again"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "Does my plan cover hearing aids?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$699"
+      - user: "thank you"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_question_answered"
+      - user: "maybe"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_question_answered"
+      - user: "yes"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_youre_welcome"
+  - test_case: "[res.unclear_twice] two unclear resolution answers close without a person"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "Does my plan cover hearing aids?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$699"
+      - user: "thank you"
+      - user: "maybe"
+      - user: "I don't know"
+        assertions:
+          - memory_was_set:
+              - name: "resolution_question.resolution_result"
+                value: "unclear"
+          - bot_did_not_utter:
+              utter_name: "utter_ask_consent_to_transfer"
+          - bot_uttered:
+              utter_name: "utter_ask_rating"
+  - test_case: "[farewell.yes] goodbye: resolution yes, goodbye text, then the rating"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "Does my plan cover hearing aids?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$699"
+      - user: "ok bye"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_question_answered"
+      - user: "set:session.resolution_question.resolved_reply=yes"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_goodbye"
+          - bot_uttered:
+              utter_name: "utter_ask_rating"
+  - test_case: "[farewell.no] goodbye with resolution no offers a representative"
+    metadata: "jordan"
+    steps:
+      - user: "/session_start"
+      - user: "Does my plan cover hearing aids?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$699"
+      - user: "ok bye"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_question_answered"
+      - user: "set:session.resolution_question.resolved_reply=no"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_consent_to_transfer"
+          - bot_did_not_utter:
+              utter_name: "utter_goodbye"
+  - test_case: "[thanks.already_over] thanks after a transfer gets no resolution question"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "I want to file a complaint about my doctor's office"
+      - user: "set:session.member_services_handoff.consent_reply=yes"
+      - user: "thanks"
+        assertions:
+          - bot_did_not_utter:
+              utter_name: "utter_ask_question_answered"
+  - test_case: "[resume.yes] a digression during the PCP confirmation, then resume yes"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "I want Dr. Grace Liu as my new primary care doctor"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_pcp_continue"
+      - user: "wait, is Eliquis covered?"
+        assertions:
+          - bot_uttered:
+              text_matches: "(?i)tier 3"
+      - user: "thanks"
+      - user: "yes, let's continue"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_pcp_continue"
+  - test_case: "[resume.no] a digression during the ID card question, then resume no"
+    metadata: "taylor"
+    steps:
+      - user: "/session_start"
+      - user: "I lost my ID card"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_card_address"
+      - user: "actually, how much is left on my OTC card?"
+        assertions:
+          - bot_uttered:
+              text_matches: "\\$0"
+      - user: "thanks"
+      - user: "no, drop it"
+        assertions:
+          - bot_did_not_utter:
+              utter_name: "utter_ask_card_address"
+          - memory_was_not_set:
+              - name: "id_card.order_reference"
+  - test_case: "[resume.discard_after_handoff] a request for a person during a flow drops that flow"
+    metadata: "alex"
+    steps:
+      - user: "/session_start"
+      - user: "I want Dr. Grace Liu as my new primary care doctor"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_pcp_continue"
+      - user: "I'd rather talk to a person about this"
+        assertions:
+          - bot_did_not_utter:
+              utter_name: "utter_ask_wants_to_resume"
+  - test_case: "[resume.discard_after_close] a goodbye during a flow drops that flow without the resume question"
+    metadata: "taylor"
+    steps:
+      - user: "/session_start"
+      - user: "I lost my ID card"
+        assertions:
+          - bot_uttered:
+              utter_name: "utter_ask_card_address"
+      - user: "never mind, bye"
+        assertions:
+          - bot_did_not_utter:
+              utter_name: "utter_ask_wants_to_resume"

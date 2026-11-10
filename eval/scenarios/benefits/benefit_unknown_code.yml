@@ -1,0 +1,17 @@
+scenario:
+  name: "[benefit.unknown_code] An unknown procedure code is not guessed"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Ask whether procedure codes 99213 and 12345 are covered.
+
+  goals:
+    criteria:
+      - The agent gives the cost of code 99213
+      - The agent says that it does not recognize code 12345
+      - The agent does not guess what code 12345 is

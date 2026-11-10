@@ -1,0 +1,19 @@
+scenario:
+  name: "[provider.specialty_zip] A cardiologist search gives in-network providers"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex, a member of the HMO. Ask for a cardiologist near ZIP code 62701 who is in your
+    network.
+
+  goals:
+    criteria:
+      - The agent names Dr. Elena Morales as an in-network cardiologist
+      - The agent does not present Dr. Robert Patel as in network for the HMO
+    expected_tools:
+      - tool_called: "find_doctor"

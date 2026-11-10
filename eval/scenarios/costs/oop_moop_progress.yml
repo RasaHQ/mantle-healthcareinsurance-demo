@@ -1,0 +1,19 @@
+scenario:
+  name: "[oop.moop_progress] Progress toward the out-of-pocket maximum comes from the member's data"
+
+  setup:
+    initial_slots:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Sam, a member of the PPO. Ask how close you are to your out-of-pocket maximum. Then ask
+    whether you have reached the cap on drug costs.
+
+  goals:
+    criteria:
+      - The agent says that the member has $1,000 left before the $7,900 in-network maximum
+      - The agent says that the member reached the $2,100 drug cap and pays $0 for covered drugs for the rest of the year
+    expected_tools:
+      - tool_called: "my_costs"

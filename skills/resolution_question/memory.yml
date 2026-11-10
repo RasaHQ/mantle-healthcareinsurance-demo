@@ -1,0 +1,24 @@
+schema:
+  public:
+    # Read by thanks_reply and farewell: not_answered ends their close at the offer of a person.
+    # Written only by the block.
+    resolution_result:
+      type: categorical
+      enum_values: [answered, not_answered, unclear]
+
+  private:
+    resolved_reply:
+      type: categorical
+      enum_values: ["yes", "no", "unclear"]
+      llm_settable: true
+      description: >-
+        The member's answer to "Did I answer your question today?": yes; no; unclear if the
+        answer is neither.
+
+    # Set by the block just before the question; the post-write tool reads and closes it.
+    resolved_reply_question_open:
+      type: bool
+
+    # The second ask.
+    reasked:
+      type: bool

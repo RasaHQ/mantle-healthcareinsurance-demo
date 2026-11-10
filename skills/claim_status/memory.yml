@@ -1,0 +1,13 @@
+schema:
+  private:
+    # Open only while the block runs a block-only tool.
+    tool_gate_open:
+      type: bool
+
+    # The signed-in member's claims, written only by load_claims from the claims data.
+    claim_records:
+      type: list
+
+    # load_claims ran for a signed-in member: my_claims is offered only then.
+    claims_loaded:
+      type: bool

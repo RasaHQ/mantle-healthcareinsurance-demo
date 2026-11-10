@@ -1,0 +1,19 @@
+scenario:
+  name: "[handoff.closed.appeal] Outside the hours, an appeal gives the hours"
+
+  setup:
+    initial_slots:
+      member_id: "m1002"
+      client_surface: "web"
+      hours_profile: "never_open"
+
+  simulation_context: >
+    You are Sam. Ask how to appeal a denial, and say you want to talk to someone about it.
+
+  goals:
+    criteria:
+      - The agent gives the appeal rules
+      - The agent says that Member Services is closed and gives the hours
+    assertions:
+      - bot_uttered:
+          utter_name: "utter_member_services_closed"

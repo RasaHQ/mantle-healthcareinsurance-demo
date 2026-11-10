@@ -1,0 +1,17 @@
+scenario:
+  name: "[extras.dental_hmo] Dental benefits on the HMO"
+
+  setup:
+    initial_slots:
+      member_id: "m1005"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Morgan, a member of the HMO. Ask whether your plan covers a crown, and how much the plan
+    pays for dental care in a year.
+
+  goals:
+    criteria:
+      - The agent says that comprehensive dental care such as crowns has 50% coinsurance
+      - The agent says that the plan pays up to $2,000 a year for dental care

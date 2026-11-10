@@ -1,0 +1,12 @@
+responses:
+  # The rules of each request type and status. authorizations_on_record gives these to the model as facts.
+  utter_auth_rules_medical:
+    - text: "For a medical service, we decide within 7 calendar days after we get the request, or within 72 hours when your doctor says that waiting could seriously harm your health."
+  utter_auth_rules_part_d:
+    - text: "For a drug coverage request, we decide within 72 hours after we get your doctor's statement, or within 24 hours when waiting could seriously harm your health."
+  utter_auth_next_step_approved:
+    - text: "The approval is valid until the date shown. Your provider has the approval too, so you can schedule the service."
+  utter_auth_next_step_pending:
+    - text: "We will tell you and your provider when we decide. You don't need to do anything now."
+  utter_auth_next_step_denied:
+    - text: "We sent you and your provider a notice with the reason. Your provider can send us more information, or you can appeal within 65 days of the date on the notice."

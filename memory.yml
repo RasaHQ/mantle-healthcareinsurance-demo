@@ -1,0 +1,79 @@
+# Project memory: `session.project.<entry>`, readable by every skill.
+#
+# Who writes what:
+# - `seed: true` fields come from the metadata of the session-start message, which the channel
+#   client sends. That client is trusted (a member portal or app that signed the member in). The
+#   model, a collect step and a typed message cannot write them.
+# - The other fields are written only by tool code or `set_memory` steps of the skills in
+#   `writable_by`. The model never writes project memory.
+# - A project field is write-once unless it is `mutable: true`.
+
+# The signed-in member's id, from the channel. Empty for a visitor who is not signed in.
+# lib/member_data.py reads the member record for this id. No tool takes a member id as an argument.
+member_id:
+  type: text
+  seed: true
+
+# Where the chat runs: the website or the mobile app. Response variants read it.
+client_surface:
+  type: categorical
+  enum_values: [web, app]
+  seed: true
+
+# Test only: forces the opening hours of Member Services (lib/service_hours.py).
+# Empty in production: the hours in lib/data/service_hours.json apply.
+hours_profile:
+  type: categorical
+  enum_values: [always_open, never_open]
+  seed: true
+
+# From the member record, for a signed-in member only.
+first_name_on_file:
+  type: text
+  writable_by: [initialize_conversation]
+
+# member: enrolled in a Rasa Advantage plan. shopper: looks at the plans. From the member record,
+# or from the visitor's answer to the opener's question.
+membership:
+  type: categorical
+  enum_values: [member, shopper]
+  writable_by: [initialize_conversation]
+
+# The plan: hmo, ppo, or not_sure for a visitor who does not know. From the member record, or from
+# the visitor's answer to the opener's question. Response variants and lookups read it.
+plan_type:
+  type: categorical
+  enum_values: [hmo, ppo, not_sure]
+  writable_by: [initialize_conversation]
+
+# Set on the first run of initialize_conversation. A later run, as the resolver of the
+# precondition membership_known, skips the greeting.
+opener_done:
+  type: bool
+  writable_by: [initialize_conversation]
+
+# The member's message that the precondition membership_known parked. The model sees only the
+# latest messages, so after the opener's questions the request may have dropped out of them.
+# Shown to the model for routing; no gate and no tool reads it. The wrap-up clears it.
+pending_request:
+  type: text
+  mutable: true
+  writable_by: [initialize_conversation, builtin_completed]
+
+# The member asked for a person. builtin_continue_interrupted then drops the task that the request
+# interrupted, without the resume question.
+asked_for_representative:
+  type: bool
+  mutable: true
+  writable_by: [representative_request]
+
+# The conversation goes to a Member Services representative. Written only by the member_services_handoff skill's
+# transfer tool, after the member's yes. A client reads it from the tracker and starts the transfer.
+handoff_to_agent:
+  type: bool
+  writable_by: [member_services_handoff]
+
+# The conversation is over. Written after the satisfaction question.
+chat_ended:
+  type: bool
+  writable_by: [builtin_customer_satisfaction]

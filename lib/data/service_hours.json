@@ -1,0 +1,8 @@
+{
+  "timezone": "America/New_York",
+  "seasons": [
+    {"name": "October 1 to March 31", "from": "10-01", "to": "03-31", "days": ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"], "hours": ["08:00", "20:00"]},
+    {"name": "April 1 to September 30", "from": "04-01", "to": "09-30", "days": ["monday", "tuesday", "wednesday", "thursday", "friday"], "hours": ["08:00", "20:00"]}
+  ],
+  "closed_dates": ["2026-11-26", "2026-12-25", "2027-01-01"]
+}

@@ -1,0 +1,19 @@
+scenario:
+  name: "[init.parked_request] A visitor's question is answered after the opener's questions"
+
+  setup:
+    initial_slots:
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are shopping for a Medicare Advantage plan. Ignore the assistant's greeting and its first
+    question. Your first message is exactly 'Does the plan cover hearing aids?'. Then answer the
+    assistant's questions, one at a time, which is that you are shopping and that you are not sure
+    which plan. Do not ask your question again.
+
+  goals:
+    criteria:
+      - The agent knows whether the person is a member and which plan they ask about before it answers the question
+      - The agent then answers the question about hearing aids
+      - The agent says that hearing aids cost a $699 or $999 copay per aid

@@ -1,0 +1,16 @@
+scenario:
+  name: "[provider.ambiguous_name] Two doctors with the same last name"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Ask 'is Dr. Patel in my network?'.
+
+  goals:
+    criteria:
+      - The agent mentions that there are two doctors named Patel
+      - The agent says that Dr. Maya Patel is in network for the HMO and Dr. Robert Patel is not

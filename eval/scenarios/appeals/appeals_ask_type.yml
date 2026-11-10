@@ -1,0 +1,17 @@
+scenario:
+  name: "[appeals.ask_type] An unclear request: appeal or complaint"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Say 'I want to file something about a problem'. When asked, say you want to appeal
+    a decision.
+
+  goals:
+    criteria:
+      - The agent asks whether the member wants to appeal or to complain
+      - The agent then gives the appeal rules

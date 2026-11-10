@@ -1,0 +1,16 @@
+scenario:
+  name: "[extras.vision_hmo] Vision and hearing in one conversation"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex, on the HMO. Ask how much the plan pays for glasses. Then ask about hearing aids.
+
+  goals:
+    criteria:
+      - The agent says that the plan pays up to $200 a year for glasses or contacts
+      - The agent says that hearing aids cost a $699 or $999 copay per aid

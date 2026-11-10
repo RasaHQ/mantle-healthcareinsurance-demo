@@ -1,0 +1,11 @@
+schema:
+  private:
+    # Open only while the block runs a block-only tool.
+    tool_gate_open:
+      type: bool
+
+    # closed: no agent is available now. earlier_topic: the member named a topic earlier in the
+    # conversation. ask: no topic yet.
+    chosen_path:
+      type: categorical
+      enum_values: [closed, earlier_topic, ask]

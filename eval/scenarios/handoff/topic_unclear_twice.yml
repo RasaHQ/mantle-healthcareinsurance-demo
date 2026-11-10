@@ -1,0 +1,17 @@
+scenario:
+  name: "[topic.unclear_twice] The topic question with no topic"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Ask to talk to a person. When asked what it is about, say 'my car'. When asked
+    again, say 'my bike'. Accept the offer of a representative.
+
+  goals:
+    criteria:
+      - The agent asks the topic question again after the first answer
+      - The agent offers a representative after the second answer

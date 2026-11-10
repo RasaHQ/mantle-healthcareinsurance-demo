@@ -1,0 +1,17 @@
+scenario:
+  name: "[decline.streak_reset_by_topic] A topic between declines resets the count"
+
+  setup:
+    initial_slots:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Jordan. Ask about the weather. Then ask whether Eliquis is covered. Then ask about a
+    football score, then ask for a poem.
+
+  goals:
+    criteria:
+      - The agent answers the Eliquis question
+      - The agent does not offer a representative after the poem request

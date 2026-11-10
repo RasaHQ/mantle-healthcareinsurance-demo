@@ -1,0 +1,16 @@
+scenario:
+  name: "[drug.strength_not_covered] A strength that is not on the list"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Ask whether atorvastatin 5 mg is covered.
+
+  goals:
+    criteria:
+      - The agent says which strengths of atorvastatin are covered
+      - The agent does not claim that 5 mg is covered

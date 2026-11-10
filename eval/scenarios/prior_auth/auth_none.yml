@@ -1,0 +1,15 @@
+scenario:
+  name: "[auth.none] A member with no requests"
+
+  setup:
+    initial_slots:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Jordan. Ask whether you have any prior authorizations on file.
+
+  goals:
+    criteria:
+      - The agent says that the member has no prior authorizations or drug coverage requests

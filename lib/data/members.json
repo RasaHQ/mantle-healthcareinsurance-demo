@@ -1,0 +1,32 @@
+{
+  "m1001": {
+    "first_name": "Alex", "last_name": "Rivera", "plan": "hmo", "effective_date": "2024-01-01",
+    "pcp": "P101", "mailing_address": "12 Oak Street, Springfield, IL 62701",
+    "premium_payment": null, "otc_balance_this_quarter": "$75.00",
+    "medical_out_of_pocket_this_year": 1240, "drug_out_of_pocket_this_year": 610
+  },
+  "m1002": {
+    "first_name": "Sam", "last_name": "Okafor", "plan": "ppo", "effective_date": "2025-01-01",
+    "pcp": "P102", "mailing_address": "48 Maple Avenue, Springfield, IL 62704",
+    "premium_payment": "Deducted from your Social Security benefit every month", "otc_balance_this_quarter": "$20.00",
+    "medical_out_of_pocket_this_year": 6900, "drug_out_of_pocket_this_year": 2100
+  },
+  "m1003": {
+    "first_name": "Jordan", "last_name": "Lee", "plan": "hmo", "effective_date": "2026-10-01",
+    "pcp": "P104", "mailing_address": "7 Cedar Court, Springfield, IL 62703",
+    "premium_payment": null, "otc_balance_this_quarter": "$75.00",
+    "medical_out_of_pocket_this_year": 40, "drug_out_of_pocket_this_year": 15
+  },
+  "m1004": {
+    "first_name": "Taylor", "last_name": "Brooks", "plan": "ppo", "effective_date": "2023-01-01",
+    "pcp": "P104", "mailing_address": "301 Lake Drive, Springfield, IL 62703",
+    "premium_payment": "Automatic payment from your bank account on the 1st of the month", "otc_balance_this_quarter": "$0.00",
+    "medical_out_of_pocket_this_year": 3100, "drug_out_of_pocket_this_year": 950
+  },
+  "m1005": {
+    "first_name": "Morgan", "last_name": "Diaz", "plan": "hmo", "effective_date": "2025-06-01",
+    "pcp": "P101", "mailing_address": "95 Elm Street, Apt 4, Springfield, IL 62702",
+    "premium_payment": null, "otc_balance_this_quarter": "$35.00",
+    "medical_out_of_pocket_this_year": 6700, "drug_out_of_pocket_this_year": 1320
+  }
+}

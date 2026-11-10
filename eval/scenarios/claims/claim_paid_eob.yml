@@ -1,0 +1,17 @@
+scenario:
+  name: "[claim.paid_eob] A paid claim and the EOB"
+
+  setup:
+    initial_slots:
+      member_id: "m1001"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Alex. Say you got an Explanation of Benefits for an emergency room visit and ask what
+    you owe and whether the EOB is a bill.
+
+  goals:
+    criteria:
+      - The agent says that the member owes $125 for the emergency room visit
+      - The agent says that an EOB is not a bill

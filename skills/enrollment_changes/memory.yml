@@ -1,0 +1,16 @@
+schema:
+  public:
+    # Written only by the blocks: the model picks the reason's block, never this field.
+    reason:
+      type: categorical
+      enum_values: [switch_plan, leave_plan, moving, medicaid_extra_help]
+
+  private:
+    # How often the ask block asked the reason question in this run.
+    ask_count:
+      type: int
+      initial_value: 0
+
+    # Set by every block: the skill's completion condition.
+    handled:
+      type: bool

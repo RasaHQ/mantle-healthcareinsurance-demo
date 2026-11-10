@@ -1,0 +1,8 @@
+responses:
+  # The engine may reword this question to fit the conversation, without new information.
+  utter_ask_wants_to_resume:
+    - text: |
+        We were in the middle of {session.builtin_continue_interrupted.interrupted_task_name}.
+        Do you want to continue with that, or shall I drop it?
+      metadata:
+        rephrase: true

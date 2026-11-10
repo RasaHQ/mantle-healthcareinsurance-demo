@@ -1,0 +1,16 @@
+scenario:
+  name: "[extras.otc_zero] An OTC balance of $0"
+
+  setup:
+    initial_slots:
+      member_id: "m1004"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Taylor. Ask how much is left on your OTC card, and when it refills.
+
+  goals:
+    criteria:
+      - The agent says that $0 is left this quarter
+      - The agent says that the allowance comes every quarter

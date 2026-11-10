@@ -1,0 +1,17 @@
+scenario:
+  name: "[drug.new_member_transition] A new member who already takes a drug"
+
+  setup:
+    initial_slots:
+      member_id: "m1003"
+      client_surface: "web"
+      hours_profile: "always_open"
+
+  simulation_context: >
+    You are Jordan, who joined the plan last month. Say you take Humira from your old plan and ask
+    whether you can keep getting it.
+
+  goals:
+    criteria:
+      - The agent says that Humira needs prior authorization
+      - The agent says that a new member can get a temporary supply in the first 90 days
